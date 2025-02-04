@@ -94,11 +94,12 @@
 
   ### Packages.
   environment.systemPackages = with pkgs; [
+    waybar
+    cava
     home-manager
     discord
     inputs.swww.packages.${pkgs.system}.swww
     rofi-wayland
-    hyprpolkitagent
     vim
     vscode
     go
