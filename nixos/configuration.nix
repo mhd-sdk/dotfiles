@@ -2,12 +2,14 @@
 
 {
   inputs,
+  outputs,
   lib,
   config,
   pkgs,
   ...
 }: {
   imports = [
+    inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
   ];
 
@@ -16,16 +18,15 @@
   in {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
-      # flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
-      # nix-path = config.nix.nixPath;
+      flake-registry = "";
+      nix-path = config.nix.nixPath; # Workaround for https://github.com/NixOS/nix/issues/9574
     };
     # Opinionated: disable channels
-    # channel.enable = false;
+    channel.enable = false;
 
     # Opinionated: make flake registry and nix path match flake inputs
-    # registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    # nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
+    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -40,10 +41,11 @@
 
   ### Aliases
   environment.shellAliases = {
-    nixconfig = "sudo nano /etc/nixos/configuration.nix";
-    # nixreload = "sudo nixos-rebuild switch";
-    nixreload = "sudo rm -rf /etc/nixos/* && sudo cp ~/dev/dotfiles/* ./ -R && sudo nixos-rebuild switch --flake '/etc/nixos#nixos'";
+    nixconfig = "code /home/mhd/dev/dotfiles";
+    wallpaper = "pkill hyprpaper && hyprpaper";
     hyprlandconfig = "sudo nano $HOME/.config/hypr/hyprland.conf";
+    logs-home-manager = "journalctl -xe --unit home-manager-mhd";
+    nixreload = "sudo rm -rf /etc/nixos/* && sudo cp /home/mhd/dev/dotfiles/* /etc/nixos -R && sudo nixos-rebuild switch --flake '/etc/nixos#nixos' --show-trace";
   };
 
   ### Network.
@@ -87,20 +89,23 @@
   services.displayManager.ly.enable = true;
   services.printing.enable = true;
   programs.hyprland.enable = true; 
+  home-manager.backupFileExtension = "backup";
 
+  ### Packages.
   environment.systemPackages = with pkgs; [
+    home-manager
     hyprpaper
     rofi-wayland
     hyprpolkitagent
     vim
     vscode
+    go
     wget
     git
     google-chrome
     kitty
     neofetch
   ]; 
-
   
   ### Graphics.
   hardware.graphics = {
@@ -145,6 +150,23 @@
       extraGroups = [ "networkmanager" "wheel" "audio" "docker" ];
     };
   };
+
+  ### Home Manager
+  home-manager = {
+    # pkgs = import pkgs {
+    #   overlays = [
+    #     inputs.hyprpanel.overlay
+    #   ];
+    # };
+    extraSpecialArgs = { 
+      inherit inputs;
+      inherit outputs; 
+    };
+    users = {
+      mhd = import ../home-manager/home.nix;
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
