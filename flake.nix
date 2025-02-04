@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nix-colors.url = "github:misterio77/nix-colors";
     hyprpanel = {
       url = "github:Jas-SinghFSU/HyprPanel";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,7 +14,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprpanel, ...  } @ inputs:
+  outputs = { self, nixpkgs, home-manager, hyprpanel, nix-colors, ...  } @ inputs:
   let 
     inherit (self) outputs;
 
@@ -23,13 +24,12 @@
     # Available through 'nixos-rebuild --flake .#nixos'
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs; inherit nix-colors;};
         modules = [ 
           ./nixos/configuration.nix
         ];
       };
     };
-
     
   };
 

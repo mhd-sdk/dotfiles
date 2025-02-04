@@ -3,6 +3,7 @@
 {
   inputs,
   outputs,
+  nix-colors,
   lib,
   config,
   pkgs,
@@ -12,6 +13,8 @@
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
   ];
+
+
 
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
@@ -161,6 +164,7 @@
     extraSpecialArgs = { 
       inherit inputs;
       inherit outputs; 
+      inherit nix-colors;
     };
     users = {
       mhd = import ../home-manager/home.nix;
