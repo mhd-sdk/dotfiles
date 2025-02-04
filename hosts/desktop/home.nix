@@ -45,6 +45,8 @@
   # plain files is through 'home.file'.
   home.file = {
     ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/hyprland/hyprland.conf";
+    ".config/kitty/kitty.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/kitty.conf";
+    ".config/kitty/nord-theme.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/nord-theme.conf";
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
@@ -75,7 +77,7 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
-    ELECTRON_OZONE_PLATFORM_HINT=wayland;
+    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   };
 
   # add backupfile extension to home-manager

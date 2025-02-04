@@ -38,7 +38,6 @@
         pkgs = nixpkgs.legacyPackages.${system};
         modules = [ 
           ./hosts/desktop/home.nix
-          inputs.stylix.nixosModules.stylix
         ];
       };
     };

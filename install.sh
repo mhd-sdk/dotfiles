@@ -9,7 +9,7 @@ dst="/etc/nixos"
 sudo rm -rf "$dst"/*
 
 # copy all files to dst
-sudo cp /home/mhd/dev/dotfiles/* /etc/nixos -R
+sudo cp "$src"/* /etc/nixos -R
 
 # apply nixos configuration 
 sudo nixos-rebuild switch --flake '/etc/nixos#nixos' --show-trace
