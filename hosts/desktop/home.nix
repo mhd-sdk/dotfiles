@@ -47,6 +47,7 @@
     ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/hyprland/hyprland.conf";
     ".config/kitty/kitty.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/kitty.conf";
     ".config/kitty/nord-theme.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/nord-theme.conf";
+    ".config/kitty/black-clover.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/black-clover.conf";
     ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/config.jsonc";
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -84,7 +85,7 @@
   # add backupfile extension to home-manager
 
   # Nicely reload system units when changing configs
-  # systemd.user.startServices = "sd-switch";
+  systemd.user.startServices = "sd-switch";
   programs.home-manager.enable = true;
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

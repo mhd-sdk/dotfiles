@@ -47,6 +47,7 @@
       nixswitch = "sudo rm -rf /etc/nixos/* && sudo cp /home/mhd/dev/dotfiles/* /etc/nixos -R && sudo nixos-rebuild switch --flake '/etc/nixos#nixos' --show-trace";
       homeswitch = "home-manager switch -b backup --flake '/home/mhd/dev/dotfiles#mhd' --show-trace ";
       logs-home-manager = "journalctl -xe --unit home-manager-mhd";
+      waybar-reload= "pkill waybar && hyprctl dispatch exec waybar";
     };
   };
 
