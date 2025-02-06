@@ -49,6 +49,7 @@
     ".config/kitty/nord-theme.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/nord-theme.conf";
     ".config/kitty/black-clover.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/black-clover.conf";
     ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/config.jsonc";
+    ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/style.css";
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.

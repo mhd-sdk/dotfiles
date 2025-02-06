@@ -1,0 +1,24 @@
+
+/* set variables */
+@define-color background #9E0B11;
+@define-color foreground #ffffff;
+@define-color color0 #2c3e50;
+@define-color color1 #e74c3c;
+@define-color color2 #2ecc71;
+@define-color color3 #f1c40f;
+@define-color color4 #3498db;
+@define-color color5 #9b59b6;
+@define-color color6 #1abc9c;
+@define-color color7 #ecf0f1;
+@define-color color8 #95a5a6;
+@define-color color9 #f39c12;
+
+
+* {
+    font-size:15px;
+    font-family: "CodeNewRoman Nerd Font Propo";
+}
+window#waybar{
+    all:unset;
+    background-color: @background;
+}

@@ -96,6 +96,9 @@
   ### Packages.
   environment.systemPackages = with pkgs; [
     waybar
+    hyprpicker
+    blueman
+    bluez
     cava
     home-manager
     discord
