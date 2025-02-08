@@ -27,35 +27,39 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in {
 
-    # packages.${system}. default = pkgs.stdenvNoCC.mkDerivation rec {
-    #   name = "mhdbar";
-    #   src = ./configs/mhd-bar;
+    packages.${system}.default = ags.lib.bundle { 
+      inherit pkgs;
+      src = ./configs/statusbar;
+      name = "statusbar"; # name of executable
+      entry = "app.ts";
+      gtk4 = false;
 
-    #   nativeBuildInputs = [
-    #     ags.packages.${system}.default
-    #     pkgs.wrapGAppsHook
-    #     pkgs.gobject-introspection
-    #   ];
-
-    #   buildInputs = with astal.packages.${system}; [
-    #     astal3
-    #     io
-    #     battery
-    #     bluetooth
-    #     hyprland
-    #     mpris
-    #     network
-    #     tray
-    #     wireplumber
-    #     # any other package
-    #   ];
-
-    #   installPhase = ''
-    #     mkdir -p $out/bin
-    #     ags bundle app.ts $out/bin/${name}
-    #     chmod +x $out/bin/${name}
-    #   '';
-    # };
+      # additional libraries and executables to add to gjs' runtime
+      extraPackages = [
+        ags.packages.${system}.battery
+        ags.packages.${system}.astal3
+        ags.packages.${system}.bluetooth
+        ags.packages.${system}.hyprland
+        ags.packages.${system}.mpris
+        ags.packages.${system}.network
+        ags.packages.${system}.tray
+        ags.packages.${system}.io
+        ags.packages.${system}.wireplumber
+        # pkgs.fzf
+      ];
+    };
+    devShells.${system} = {
+      default = pkgs.mkShell {
+        buildInputs = [
+          # includes astal3 astal4 astal-io by default
+          (ags.packages.${system}.default.override {
+            extraPackages = [
+              # cherry pick packages
+            ];
+          })
+        ];
+      };
+    };
 
     # Configuration NixOS
     nixosConfigurations = {
