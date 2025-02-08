@@ -1,7 +1,8 @@
 {
 	"layer": "top",
 	"position": "bottom",
-	"modules-left": ["sway/workspaces", "sway/mode"],
+	"margin": "2 2 2 2",
+	"modules-left": [],
 	"modules-center": ["clock"],
 	"modules-right": [],
 	"sway/window": {
@@ -10,5 +11,5 @@
 	"clock": {
 		"format-alt": "{:%a, %d. %b  %H:%M}"
 	},
-	"reload_style_on_change":true
+	"reload_style_on_change":true,
 }

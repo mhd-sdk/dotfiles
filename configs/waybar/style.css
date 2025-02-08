@@ -13,12 +13,25 @@
 @define-color color8 #95a5a6;
 @define-color color9 #f39c12;
 
+@define-color black #060821;
+@define-color ultrablack #000000;
+@define-color white #e9eaee;
+@define-color red #9e0b11;
+@define-color redaccent #d80007;
+
 
 * {
-    font-size:15px;
+    font-size:12px;
     font-family: "CodeNewRoman Nerd Font Propo";
 }
 window#waybar{
     all:unset;
-    background-color: @background;
+    margin:5px;
+    background-color: alpha(@ultrablack,0.7);
+    border-radius:8px;
+}
+.modules-center {
+    padding:5px;
+    margin:5px;
+    border-radius:5px;
 }

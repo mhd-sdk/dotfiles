@@ -103,6 +103,10 @@
     home-manager
     discord
     inputs.swww.packages.${pkgs.system}.swww
+    inputs.ags.packages.${pkgs.system}.default
+    inputs.astal.packages.${system}.default
+    outputs.packages.${system}.default
+    gjs
     rofi-wayland
     vim
     vscode
