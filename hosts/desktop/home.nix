@@ -8,7 +8,13 @@
     # nix-colors.homeManagerModules.default
   ];
 
-  # colorScheme = nix-colors.colorSchemes.nord;
+ 
+  gtk.enable = true;
+  gtk.cursorTheme.package = pkgs.bibata-cursors;
+  gtk.cursorTheme.name = "Bibata-Modern-Classic";
+
+  qt.enable = true;
+  qt.style = "adwaita-dark";
 
   programs.git = {
     enable = true;
@@ -20,6 +26,9 @@
     username = "mhd";
     homeDirectory = "/home/mhd";
   };
+
+  services.mithril-shell.enable = true;
+  services.mithril-shell.integrations.hyprland.enable = true;
 
 
   home.packages = [

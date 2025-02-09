@@ -18,9 +18,10 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mithril-shell.url = "github:andreashgk/mithril-shell";
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-colors, ags, astal, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, nix-colors, ags, astal, mithril-shell, ... } @ inputs:
   let 
     inherit (self) outputs;
     system = "x86_64-linux";
@@ -31,7 +32,7 @@
       inherit pkgs;
       src = ./configs/statusbar;
       name = "statusbar"; # name of executable
-      entry = "app.ts";
+      entry = "app.tsx";
       gtk4 = false;
 
       # additional libraries and executables to add to gjs' runtime
@@ -45,16 +46,30 @@
         ags.packages.${system}.tray
         ags.packages.${system}.io
         ags.packages.${system}.wireplumber
+        ags.packages.${system}.cava
         # pkgs.fzf
       ];
     };
     devShells.${system} = {
       default = pkgs.mkShell {
+        shellHook = ''
+        echo "Entering ags/astal dev shell";
+        '';
         buildInputs = [
           # includes astal3 astal4 astal-io by default
           (ags.packages.${system}.default.override {
             extraPackages = [
-              # cherry pick packages
+              ags.packages.${system}.battery
+              ags.packages.${system}.astal3
+              ags.packages.${system}.bluetooth
+              ags.packages.${system}.hyprland
+              ags.packages.${system}.mpris
+              ags.packages.${system}.network
+              ags.packages.${system}.tray
+              ags.packages.${system}.io
+              ags.packages.${system}.wireplumber
+              ags.packages.${system}.cava
+              astal.packages.${system}.default
             ];
           })
         ];
@@ -73,7 +88,10 @@
     homeConfigurations = {
       mhd = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./hosts/desktop/home.nix ];
+        modules = [ 
+          mithril-shell.homeManagerModules.default
+          ./hosts/desktop/home.nix
+        ];
       };
     };
   };

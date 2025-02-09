@@ -51,6 +51,7 @@
     };
   };
 
+
   ### Network.
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -95,28 +96,38 @@
 
   ### Packages.
   environment.systemPackages = with pkgs; [
-    waybar
+    gtk3 gtk4
+    lxappearance
+    gnome-themes-extra
+    materia-theme
+    papirus-icon-theme 
     hyprpicker
-    blueman
     bluez
+    bluez-tools
     cava
     home-manager
     discord
     inputs.swww.packages.${pkgs.system}.swww
-    inputs.ags.packages.${pkgs.system}.default
-    inputs.astal.packages.${system}.default
     outputs.packages.${system}.default
-    gjs
+    inputs.astal.packages.${system}.default
+    hyprcursor
+    hyprshot
     rofi-wayland
     vim
     vscode
     go
     wget
     git
+    gh
     google-chrome
     kitty
     neofetch
   ]; 
+
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
+  programs.thunar.enable = true;
   
   ### Graphics.
   hardware.graphics = {
