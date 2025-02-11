@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     swww.url = "github:LGFae/swww";
-    stylix.url = "github:danth/stylix";
-    nix-colors.url = "github:misterio77/nix-colors";
     astal = {
       url = "github:aylur/astal";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,16 +16,20 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mithril-shell.url = "github:andreashgk/mithril-shell";
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland"; # Prevents version mismatch.
+    };
+    stylix.url = "github:danth/stylix/release-24.11";
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-colors, ags, astal, mithril-shell, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, ags, astal, stylix, ... } @ inputs:
   let 
     inherit (self) outputs;
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
-
     packages.${system}.default = ags.lib.bundle { 
       inherit pkgs;
       src = ./configs/statusbar;
@@ -79,8 +81,11 @@
     # Configuration NixOS
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit outputs inputs nix-colors; };
-        modules = [ ./hosts/desktop/configuration.nix ];
+        specialArgs = { inherit outputs inputs; };
+        modules = [ 
+          stylix.nixosModules.stylix
+          ./hosts/desktop/configuration.nix
+        ];
       };
     };
 
@@ -89,7 +94,6 @@
       mhd = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ 
-          mithril-shell.homeManagerModules.default
           ./hosts/desktop/home.nix
         ];
       };

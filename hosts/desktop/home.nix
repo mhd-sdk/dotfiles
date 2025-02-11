@@ -5,16 +5,37 @@
 }: {
   # You can import other home-manager modules here
   imports = [
-    # nix-colors.homeManagerModules.default
+
   ];
 
- 
-  gtk.enable = true;
-  gtk.cursorTheme.package = pkgs.bibata-cursors;
-  gtk.cursorTheme.name = "Bibata-Modern-Classic";
+  gtk = {
+    enable = true;
+    cursorTheme.package = pkgs.bibata-cursors;
+    cursorTheme.name = "Bibata-Modern-Classic";
 
-  qt.enable = true;
-  qt.style = "adwaita-dark";
+    # theme = {
+    #   package = pkgs.flat-remix-gtk;
+    #   name = "Flat-Remix-GTK-Grey-Darkest";
+    # };
+    theme = {
+      package = pkgs.magnetic-catppuccin-gtk;
+      name = "Catppuccin-GTK-Dark";
+    };
+
+    iconTheme = {
+      package = pkgs.adwaita-icon-theme;
+      name = "Adwaita";
+    };
+
+    font = {
+      name = "roboto";
+      size = 11;
+    };
+  };
+
+  qt = {
+    enable = true;
+  };
 
   programs.git = {
     enable = true;
@@ -26,10 +47,6 @@
     username = "mhd";
     homeDirectory = "/home/mhd";
   };
-
-  services.mithril-shell.enable = true;
-  services.mithril-shell.integrations.hyprland.enable = true;
-
 
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -59,6 +76,7 @@
     ".config/kitty/black-clover.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/black-clover.conf";
     ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/config.jsonc";
     ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/style.css";
+    ".config/tofi/config".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/tofi/config";
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
@@ -70,6 +88,8 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+
+  programs.kitty.themeFile = "Catppuccin-Mocha";
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -90,9 +110,15 @@
   home.sessionVariables = {
     # EDITOR = "emacs";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
-  };
+  };  
 
-  # add backupfile extension to home-manager
+  home.sessionPath = [
+    "$HOME/go/bin"
+  ];
+
+  # idk why but if disabled, copy paste between vscode and chrome is broken 
+  programs.bash.enable = true;
+  programs.fish.enable = false;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

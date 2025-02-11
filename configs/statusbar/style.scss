@@ -23,7 +23,9 @@ button {
     padding:0px 5px;
     border-radius: $radius;
     background-color: $black2;
-    color: $white;
+    background: $black2;
+    border: none;
+    color: $black2;
 }
 
 button:hover {

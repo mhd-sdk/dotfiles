@@ -25,7 +25,6 @@ export const StatusIcons = () => {
 
     return (
         <box>
-            <button onClicked={openPopup}>
                 <box className="StatusIcons">
                     <icon className='statusIcon' icon={soundIconName} />
                     {bind(network, "primary").as(primary => (
@@ -33,7 +32,6 @@ export const StatusIcons = () => {
                     ))}
                     <icon className='statusIcon' icon="bluetooth" />
                 </box>
-            </button>
             <Popover valign={Gtk.Align.END} halign={Gtk.Align.END} marginBottom={20} className="Popup" onClose={closePopup} visible={showPopup()}>
                 <box className="popup" vertical>
                     <label label="Bluetooth Settings" />
