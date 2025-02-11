@@ -90,7 +90,7 @@
   services.printing.enable = true;
   programs.hyprland = {
     enable = true;
-    withUWSM = true; # recommended for most users
+    withUWSM = false; # recommended for most users
     xwayland.enable = true; # Xwayland can be disabled.
   };
 
@@ -134,6 +134,13 @@
   fonts.packages = with pkgs; [
     nerdfonts
   ];
+
+  stylix = {
+    enable = true;
+    polarity = "dark";
+    image = ../../assets/nix-wallpaper-nineish-catppuccin-frappe-alt.png;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  };
   
   ## System Version
   system.stateVersion = "24.11"; # Installed NixOS version

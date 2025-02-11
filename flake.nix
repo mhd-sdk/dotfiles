@@ -21,6 +21,8 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland"; # Prevents version mismatch.
     };
+
+    # Theming 
     stylix.url = "github:danth/stylix/release-24.11";
   };
 
@@ -83,6 +85,7 @@
       nixos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit outputs inputs; };
         modules = [ 
+          
           stylix.nixosModules.stylix
           ./hosts/desktop/configuration.nix
         ];
@@ -94,6 +97,7 @@
       mhd = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ 
+          stylix.homeManagerModules.stylix 
           ./hosts/desktop/home.nix
         ];
       };

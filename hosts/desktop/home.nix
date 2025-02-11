@@ -14,13 +14,9 @@
     cursorTheme.name = "Bibata-Modern-Classic";
 
     # theme = {
-    #   package = pkgs.flat-remix-gtk;
-    #   name = "Flat-Remix-GTK-Grey-Darkest";
+    #   package = pkgs.magnetic-catppuccin-gtk;
+    #   name = "Catppuccin-GTK-Dark";
     # };
-    theme = {
-      package = pkgs.magnetic-catppuccin-gtk;
-      name = "Catppuccin-GTK-Dark";
-    };
 
     iconTheme = {
       package = pkgs.adwaita-icon-theme;
@@ -71,12 +67,10 @@
   # plain files is through 'home.file'.
   home.file = {
     ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/hyprland/hyprland.conf";
-    ".config/kitty/kitty.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/kitty.conf";
-    ".config/kitty/nord-theme.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/nord-theme.conf";
-    ".config/kitty/black-clover.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/black-clover.conf";
-    ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/config.jsonc";
-    ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/style.css";
     ".config/tofi/config".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/tofi/config";
+    ".config/kitty/kitty.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/kitty.conf";
+    # ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/config.jsonc";
+    # ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/style.css";
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
