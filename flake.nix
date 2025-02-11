@@ -85,20 +85,8 @@
       nixos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit outputs inputs; };
         modules = [ 
-          
           stylix.nixosModules.stylix
           ./hosts/desktop/configuration.nix
-        ];
-      };
-    };
-
-    # Configuration Home Manager
-    homeConfigurations = {
-      mhd = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [ 
-          stylix.homeManagerModules.stylix 
-          ./hosts/desktop/home.nix
         ];
       };
     };

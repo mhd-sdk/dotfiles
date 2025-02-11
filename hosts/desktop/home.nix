@@ -12,26 +12,26 @@
     enable = true;
     cursorTheme.package = pkgs.bibata-cursors;
     cursorTheme.name = "Bibata-Modern-Classic";
-
+  };
     # theme = {
     #   package = pkgs.magnetic-catppuccin-gtk;
     #   name = "Catppuccin-GTK-Dark";
     # };
 
-    iconTheme = {
-      package = pkgs.adwaita-icon-theme;
-      name = "Adwaita";
-    };
+    # iconTheme = {
+    #   package = pkgs.adwaita-icon-theme;
+    #   name = "Adwaita";
+    # };
 
-    font = {
-      name = "roboto";
-      size = 11;
-    };
-  };
+    # font = {
+    #   name = "roboto";
+    #   size = 11;
+    # };
+  # };
 
-  qt = {
-    enable = true;
-  };
+  # qt = {
+  #   enable = true;
+  # };
 
   programs.git = {
     enable = true;
@@ -47,7 +47,7 @@
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    # pkgs.hello
+    pkgs.hello
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -66,11 +66,11 @@
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
-    ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/hyprland/hyprland.conf";
-    ".config/tofi/config".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/tofi/config";
-    ".config/kitty/kitty.conf".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/kitty/kitty.conf";
-    # ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/config.jsonc";
-    # ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "/home/mhd/dev/dotfiles/configs/waybar/style.css";
+    ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/hyprland/hyprland.conf";
+    ".config/tofi/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/tofi/config";
+    ".config/kitty/kitty-symlinked.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/kitty/kitty-symlinked.conf";
+    # ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/waybar/config.jsonc";
+    # ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/waybar/style.css";
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
@@ -82,8 +82,12 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
-
-  programs.kitty.themeFile = "Catppuccin-Mocha";
+  
+  programs.kitty.enable = true;
+  programs.kitty.extraConfig = ''
+    include kitty-symlinked.conf
+  '';
+  services.hyprpaper.enable = true;
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -112,7 +116,6 @@
 
   # idk why but if disabled, copy paste between vscode and chrome is broken 
   programs.bash.enable = true;
-  programs.fish.enable = false;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

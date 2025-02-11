@@ -9,6 +9,7 @@
   # Import hardware configuration
   imports = [
     ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
 
   ## Nix
@@ -102,7 +103,7 @@
     outputs.packages.${system}.default
     inputs.astal.packages.${system}.default
     hyprcursor hyprshot rofi-wayland vim tofi pavucontrol vscode
-    go wget git gh google-chrome kitty neofetch
+    go wget git gh google-chrome neofetch
     waybar
   ];
 
@@ -131,15 +132,23 @@
     extraGroups = [ "networkmanager" "wheel" "audio" "docker" ];
   };
 
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      mhd = import ./home.nix;
+    };
+  };
+
   fonts.packages = with pkgs; [
     nerdfonts
   ];
 
   stylix = {
     enable = true;
-    polarity = "dark";
     image = ../../assets/nix-wallpaper-nineish-catppuccin-frappe-alt.png;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    cursor.package = pkgs.bibata-cursors;
+    cursor.name = "Bibata-Modern-Classic";
   };
   
   ## System Version
