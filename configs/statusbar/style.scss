@@ -1,16 +1,33 @@
 @use "sass:color";
 
-$black: #060821;
-$black2: #000000;
+$black: #000000;
 $red: #9e0b11;
 $white: #e9eaee;
-$focus: #313131;
+$focus: #1e1e2e;
 $radius: 0px;
+
+$background: #11111b;
+$text: #cdd6f4;
+
+.Workspaces {
+    background-color: $background;
+    color: $text;
+}
+
+.focused {
+    background-color: $focus;
+    color: $text;
+}
+
+.not-focused {
+    background-color: $background;
+    color: $text;
+}
 
 window.Bar {
     box-shadow: none;
-    background-color: $black2;
-    color: $white;
+    background-color: $background;
+    color: $text;
     font-size: 0.8em;
     min-height: 80px;
 
@@ -22,10 +39,9 @@ window.Bar {
 button {
     padding:0px 5px;
     border-radius: $radius;
-    background-color: $black2;
-    background: $black2;
+    background-color: $background;
+    background: $background;
     border: none;
-    color: $black2;
 }
 
 button:hover {

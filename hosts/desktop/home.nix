@@ -8,30 +8,7 @@
 
   ];
 
-  gtk = {
-    enable = true;
-    cursorTheme.package = pkgs.bibata-cursors;
-    cursorTheme.name = "Bibata-Modern-Classic";
-  };
-    # theme = {
-    #   package = pkgs.magnetic-catppuccin-gtk;
-    #   name = "Catppuccin-GTK-Dark";
-    # };
-
-    # iconTheme = {
-    #   package = pkgs.adwaita-icon-theme;
-    #   name = "Adwaita";
-    # };
-
-    # font = {
-    #   name = "roboto";
-    #   size = 11;
-    # };
-  # };
-
-  # qt = {
-  #   enable = true;
-  # };
+  fonts.fontconfig.enable = true;
 
   programs.git = {
     enable = true;
@@ -44,31 +21,13 @@
     homeDirectory = "/home/mhd";
   };
 
-  home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-  ];
-
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
     ".config/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/hyprland/hyprland.conf";
     ".config/tofi/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/tofi/config";
     ".config/kitty/kitty-symlinked.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/kitty/kitty-symlinked.conf";
+    ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/starship/starship.toml";
     # ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/waybar/config.jsonc";
     # ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/waybar/style.css";
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
@@ -82,12 +41,28 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
-  
-  programs.kitty.enable = true;
-  programs.kitty.extraConfig = ''
-    include kitty-symlinked.conf
-  '';
+  programs.kitty = {
+    enable = true;
+    extraConfig = ''
+      include kitty-symlinked.conf
+    '';
+  };
+
+  programs.starship = {
+    enable = true;
+    settings = {
+    };
+  };
+
   services.hyprpaper.enable = true;
+  services.hyprpaper.settings = {
+    preload = [
+      "${config.home.homeDirectory}/dev/dotfiles/assets/catppuccin-mocha-asian-town.png"
+    ];
+    wallpaper = [
+      ", ${config.home.homeDirectory}/dev/dotfiles/assets/catppuccin-mocha-asian-town.png"
+    ];
+  };
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -106,7 +81,6 @@
   #  /etc/profiles/per-user/mhd/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   };  
 

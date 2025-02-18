@@ -75,8 +75,8 @@
   };
 
   ## Sound (Pipewire)
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -102,13 +102,16 @@
     inputs.swww.packages.${pkgs.system}.swww
     outputs.packages.${system}.default
     inputs.astal.packages.${system}.default
-    hyprcursor hyprshot rofi-wayland vim tofi pavucontrol vscode
+    hyprcursor hyprshot vim tofi pavucontrol vscode
     go wget git gh google-chrome neofetch
-    waybar
+    nerdfonts departure-mono spotify
+    spotify
+    
   ];
 
   ## Bluetooth
-  hardware.bluetooth.enable = false;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
   ## File Manager
@@ -140,15 +143,26 @@
   };
 
   fonts.packages = with pkgs; [
-    nerdfonts
+    departure-mono
   ];
 
   stylix = {
     enable = true;
-    image = ../../assets/nix-wallpaper-nineish-catppuccin-frappe-alt.png;
+    image = ../../assets/catppuccin-mocha-asian-town.png;
+    polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     cursor.package = pkgs.bibata-cursors;
     cursor.name = "Bibata-Modern-Classic";
+    fonts = {
+      monospace = {
+        package = pkgs.nerdfonts;
+        name = "JetBrains Mono Nerd Font";
+      };
+      serif = config.stylix.fonts.monospace;
+      sansSerif = config.stylix.fonts.monospace;
+      emoji = config.stylix.fonts.monospace;
+    };
+
   };
   
   ## System Version

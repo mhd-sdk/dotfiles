@@ -7,4 +7,9 @@ padding-top = 35%
 result-spacing = 25
 num-results = 5
 font = monospace
-background-color = #000A
+background-color = #1a1b26
+
+selection-color = #f0d2af
+selection-background = #da5d64
+selection-background-padding = 3, 15, 3, 15
+selection-match-color = #fff
