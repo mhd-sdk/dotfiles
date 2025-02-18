@@ -105,7 +105,7 @@
     hyprcursor hyprshot vim tofi pavucontrol vscode
     go wget git gh google-chrome neofetch
     nerdfonts departure-mono spotify
-    spotify
+    spotify cliphist wl-clipboard
     
   ];
 
@@ -148,7 +148,7 @@
 
   stylix = {
     enable = true;
-    image = ../../assets/catppuccin-mocha-asian-town.png;
+    image = ../../assets/math.png;
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     cursor.package = pkgs.bibata-cursors;

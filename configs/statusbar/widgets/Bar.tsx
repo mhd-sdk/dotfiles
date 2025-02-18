@@ -11,6 +11,7 @@ function Time({ format = "%c" }) {
 function SysTray() {
     const tray = Tray.get_default()
 
+
     return <box className="SysTray">
         {bind(tray, "items").as(items => items.map(item => (
             <menubutton

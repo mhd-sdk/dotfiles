@@ -57,10 +57,10 @@
   services.hyprpaper.enable = true;
   services.hyprpaper.settings = {
     preload = [
-      "${config.home.homeDirectory}/dev/dotfiles/assets/catppuccin-mocha-asian-town.png"
+      "${config.home.homeDirectory}/dev/dotfiles/assets/math.png"
     ];
     wallpaper = [
-      ", ${config.home.homeDirectory}/dev/dotfiles/assets/catppuccin-mocha-asian-town.png"
+      ", ${config.home.homeDirectory}/dev/dotfiles/assets/math.png"
     ];
   };
 
