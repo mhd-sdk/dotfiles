@@ -1,11 +1,13 @@
 {
   config,
   pkgs,
+  inputs,
+  lib,
   ...
 }: {
   # You can import other home-manager modules here
   imports = [
-
+    inputs.nixvim.homeManagerModules.nixvim
   ];
 
   fonts.fontconfig.enable = true;
@@ -28,19 +30,9 @@
     ".config/tofi/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/tofi/config";
     ".config/kitty/kitty-symlinked.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/kitty/kitty-symlinked.conf";
     ".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/starship/starship.toml";
-    # ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/waybar/config.jsonc";
-    # ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/waybar/style.css";
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+    ".config/nvim/".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/nvim/";
   };
+
   programs.kitty = {
     enable = true;
     extraConfig = ''
@@ -54,14 +46,14 @@
     };
   };
 
-  services.hyprpaper.enable = true;
-  services.hyprpaper.settings = {
-    preload = [
-      "${config.home.homeDirectory}/dev/dotfiles/assets/math.png"
-    ];
-    wallpaper = [
-      ", ${config.home.homeDirectory}/dev/dotfiles/assets/math.png"
-    ];
+
+  services.hyprpaper =  {
+    enable = true;
+    settings = {
+      preload = [
+       "../../assets/math.png"
+      ];
+    };
   };
 
   # Home Manager can also manage your environment variables through
@@ -88,8 +80,41 @@
     "$HOME/go/bin"
   ];
 
-  # idk why but if disabled, copy paste between vscode and chrome is broken 
-  programs.bash.enable = true;
+  programs.bash = {
+    enable = true;
+  };
+
+  
+  # programs.nixvim = {
+  #   enable = true;
+
+  #   colorschemes.catppuccin.enable = true;
+  #   plugins.lualine.enable = true;
+  # };
+
+
+  # programs.neovim = {
+  #   enable = true;
+  #   viAlias = true;
+  #   vimAlias = true;
+  #   vimdiffAlias = true;
+
+  #   plugins = with pkgs; [
+  #     pkgs.vimPlugins.mini-pairs
+  #     pkgs.vimPlugins.neo-tree-nvim
+  #     pkgs.vimPlugins.lualine-nvim
+  #     pkgs.vimPlugins.catppuccin-nvim
+
+  #     pkgs.vimPlugins.telescope-nvim
+  #     pkgs.vimPlugins.nvim-treesitter
+  #   ];
+
+  #   extraLuaConfig = ''
+  #     ${builtins.readFile ../../configs/nvim/plugins/lualine.lua}
+  #     ${builtins.readFile ../../configs/nvim/plugins/catppuccin.lua}
+  #   '';
+  # };
+
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
@@ -97,5 +122,4 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.05";
-  
 }

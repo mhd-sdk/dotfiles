@@ -9,6 +9,7 @@
   # Import hardware configuration
   imports = [
     ./hardware-configuration.nix
+    inputs.spicetify-nix.nixosModules.spicetify
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -23,7 +24,19 @@
     };
     channel.enable = false; # Disable channels for pure flake usage
     registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+
   };
+
+
+  programs.spicetify = {
+    enable = true;
+    enabledExtensions = with inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system}.extensions; [
+      adblockify
+      hidePodcasts
+      shuffle # shuffle+ (special characters are sanitized out of extension names)
+    ];
+  };
+
 
   # Allow non-free packages
   nixpkgs.config.allowUnfree = true;
@@ -103,11 +116,13 @@
     outputs.packages.${system}.default
     inputs.astal.packages.${system}.default
     hyprcursor hyprshot vim tofi pavucontrol vscode
-    go wget git gh google-chrome neofetch
-    nerdfonts departure-mono spotify
-    spotify cliphist wl-clipboard
-    
+    go gopls wget git gh google-chrome neofetch
+    nerdfonts departure-mono spotify lua neovim lua-language-server
+    spotify cliphist wl-clipboard obs-studio
+    hyprpaper gcc fd nodejs_23 yarn pnpm_9 unzip
+    tree
   ];
+
 
   ## Bluetooth
   hardware.bluetooth.enable = true;
@@ -153,6 +168,7 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     cursor.package = pkgs.bibata-cursors;
     cursor.name = "Bibata-Modern-Classic";
+    targets.kitty.enable = false;
     fonts = {
       monospace = {
         package = pkgs.nerdfonts;
@@ -162,7 +178,6 @@
       sansSerif = config.stylix.fonts.monospace;
       emoji = config.stylix.fonts.monospace;
     };
-
   };
   
   ## System Version

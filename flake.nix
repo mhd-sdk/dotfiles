@@ -22,11 +22,18 @@
       inputs.hyprland.follows = "hyprland"; # Prevents version mismatch.
     };
 
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Theming 
     stylix.url = "github:danth/stylix/release-24.11";
   };
 
-  outputs = { self, nixpkgs, home-manager, ags, astal, stylix, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, ags, astal, stylix, nixvim, ... } @ inputs:
   let 
     inherit (self) outputs;
     system = "x86_64-linux";
@@ -86,6 +93,7 @@
         specialArgs = { inherit outputs inputs; };
         modules = [ 
           stylix.nixosModules.stylix
+          nixvim.nixosModules.nixvim
           ./hosts/desktop/configuration.nix
         ];
       };
