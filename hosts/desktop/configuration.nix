@@ -101,6 +101,10 @@
   security.polkit.enable = true;
   console.keyMap = "fr";
   services.displayManager.ly.enable = true;
+  services.displayManager.ly.settings = {
+    animation="matrix";
+  };
+
   services.printing.enable = true;
   programs.hyprland = {
     enable = true;
@@ -120,7 +124,7 @@
     nerdfonts departure-mono spotify lua neovim lua-language-server
     spotify cliphist wl-clipboard obs-studio
     hyprpaper gcc fd nodejs_23 yarn pnpm_9 unzip
-    tree
+    tree vlc docker
   ];
 
 
@@ -163,9 +167,9 @@
 
   stylix = {
     enable = true;
-    image = ../../assets/math.png;
+    image = ../../assets/wallpaper.png;
     polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     cursor.package = pkgs.bibata-cursors;
     cursor.name = "Bibata-Modern-Classic";
     fonts = {
@@ -173,12 +177,15 @@
         package = pkgs.nerdfonts;
         name = "JetBrains Mono Nerd Font";
       };
+      # monospace = {
+      #   package = pkgs.departure-mono;
+      #   name = "DepartureMono";
+      # };
       serif = config.stylix.fonts.monospace;
       sansSerif = config.stylix.fonts.monospace;
       emoji = config.stylix.fonts.monospace;
     };
   };
-
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
@@ -233,6 +240,7 @@
       xorg.libxkbfile
       xorg.libxshmfence
       zlib
+      eslint
     ];
   };
   

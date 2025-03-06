@@ -6,9 +6,9 @@ return {
     version = '*',
     dependencies = {
         'nvim-lua/plenary.nvim',
-        'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
         'MunifTanjim/nui.nvim',
     },
+    enabled = true,
     cmd = 'Neotree',
     keys = {
         { '\\', ':Neotree toggle<CR>', desc = 'NeoTree toggle', silent = true },
@@ -27,5 +27,4 @@ return {
             enable_git_status = false
         })
     end
-
 }

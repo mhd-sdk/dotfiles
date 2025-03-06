@@ -37,7 +37,6 @@ export default function Bar(monitor: number) {
                     
                 </box>
                 <box hexpand halign={Gtk.Align.END}>
-                    <SysTray />
                     <Time />
                 </box>
             </centerbox>
