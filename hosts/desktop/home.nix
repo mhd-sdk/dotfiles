@@ -83,39 +83,7 @@
   programs.bash = {
     enable = true;
   };
-
   
-  # programs.nixvim = {
-  #   enable = true;
-
-  #   colorschemes.catppuccin.enable = true;
-  #   plugins.lualine.enable = true;
-  # };
-
-
-  # programs.neovim = {
-  #   enable = true;
-  #   viAlias = true;
-  #   vimAlias = true;
-  #   vimdiffAlias = true;
-
-  #   plugins = with pkgs; [
-  #     pkgs.vimPlugins.mini-pairs
-  #     pkgs.vimPlugins.neo-tree-nvim
-  #     pkgs.vimPlugins.lualine-nvim
-  #     pkgs.vimPlugins.catppuccin-nvim
-
-  #     pkgs.vimPlugins.telescope-nvim
-  #     pkgs.vimPlugins.nvim-treesitter
-  #   ];
-
-  #   extraLuaConfig = ''
-  #     ${builtins.readFile ../../configs/nvim/plugins/lualine.lua}
-  #     ${builtins.readFile ../../configs/nvim/plugins/catppuccin.lua}
-  #   '';
-  # };
-
-
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
   programs.home-manager.enable = true;

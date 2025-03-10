@@ -5,7 +5,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # Import hardware configuration
   imports = [
     ./hardware-configuration.nix
@@ -14,19 +15,72 @@
   ];
 
   ## Nix
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  in {
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      flake-registry = "";
-      nix-path = config.nix.nixPath; # Workaround for a known bug
+  nix =
+    let
+      flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+    in
+    {
+      settings = {
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+        flake-registry = "";
+        nix-path = config.nix.nixPath; # Workaround for a known bug
+      };
+      channel.enable = false; # Disable channels for pure flake usage
+      registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     };
-    channel.enable = false; # Disable channels for pure flake usage
-    registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
 
-  };
+  services.udev.extraRules = ''
+    # Rules for Oryx web flashing and live training
+    KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
 
+    # Legacy rules for live training over webusb (Not needed for firmware v21+)
+      # Rule for all ZSA keyboards
+      SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
+      # Rule for the Moonlander
+      SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
+      # Rule for the Ergodox EZ
+      SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
+      # Rule for the Planck EZ
+      SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
+
+    # Wally Flashing rules for the Ergodox EZ
+    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
+    KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+
+    # Keymapp / Wally Flashing rules for the Moonlander and Planck EZ
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE:="0666", SYMLINK+="stm32_dfu"
+    # Keymapp Flashing rules for the Voyager
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"# Rules for Oryx web flashing and live training
+    KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
+
+    # Legacy rules for live training over webusb (Not needed for firmware v21+)
+    # Rule for all ZSA keyboards
+    SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
+    # Rule for the Moonlander
+    SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
+    # Rule for the Ergodox EZ
+    SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
+    # Rule for the Planck EZ
+    SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
+
+    # Wally Flashing rules for the Ergodox EZ
+    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
+    KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+
+    # Keymapp / Wally Flashing rules for the Moonlander and Planck EZ
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE:="0666", SYMLINK+="stm32_dfu"
+    # Keymapp Flashing rules for the Voyager
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"
+  '';
 
   programs.spicetify = {
     enable = true;
@@ -36,7 +90,6 @@
       shuffle # shuffle+ (special characters are sanitized out of extension names)
     ];
   };
-
 
   # Allow non-free packages
   nixpkgs.config.allowUnfree = true;
@@ -99,10 +152,10 @@
 
   ## General Configuration
   security.polkit.enable = true;
-  console.keyMap = "fr";
+  console.keyMap = "us";
   services.displayManager.ly.enable = true;
   services.displayManager.ly.settings = {
-    animation="matrix";
+    animation = "matrix";
   };
 
   services.printing.enable = true;
@@ -114,19 +167,60 @@
 
   ## System Packages
   environment.systemPackages = with pkgs; [
-    gtk3 gtk4 lxappearance gnome-themes-extra materia-theme papirus-icon-theme
-    hyprpicker bluez bluez-tools cava home-manager discord
+    gtk3
+    gtk4
+    lxappearance
+    gnome-themes-extra
+    materia-theme
+    papirus-icon-theme
+    hyprpicker
+    bluez
+    bluez-tools
+    cava
+    home-manager
+    discord
     inputs.swww.packages.${pkgs.system}.swww
     outputs.packages.${system}.default
     inputs.astal.packages.${system}.default
-    hyprcursor hyprshot vim tofi pavucontrol vscode
-    go gopls wget git gh google-chrome neofetch
-    nerdfonts departure-mono spotify lua neovim lua-language-server
-    spotify cliphist wl-clipboard obs-studio
-    hyprpaper gcc fd nodejs_23 yarn pnpm_9 unzip
-    tree vlc docker
+    hyprcursor
+    hyprshot
+    vim
+    tofi
+    pavucontrol
+    vscode
+    go
+    gopls
+    wget
+    git
+    gh
+    google-chrome
+    neofetch
+    nerdfonts
+    departure-mono
+    spotify
+    lua
+    neovim
+    lua-language-server
+    spotify
+    cliphist
+    wl-clipboard
+    obs-studio
+    hyprpaper
+    gcc
+    fd
+    nodejs_23
+    yarn
+    pnpm_9
+    unzip
+    tree
+    vlc
+    docker
+    code-cursor
+    pinta
+    nixfmt-rfc-style
+    typescript-language-server
+    ripgrep
   ];
-
 
   ## Bluetooth
   hardware.bluetooth.enable = true;
@@ -148,11 +242,21 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  users.groups.plugdev = {};
+  users.groups.docker = {};
+
   ## Users
   users.users.mhd = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "audio" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "audio"
+      "docker"
+      "plugdev"
+    ];
   };
+
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -222,7 +326,7 @@
       openssl
       pango
       pipewire
-      stdenv.cc.cc 
+      stdenv.cc.cc
       systemd
       vulkan-loader
       xorg.libX11
@@ -243,7 +347,7 @@
       eslint
     ];
   };
-  
+
   ## System Version
   system.stateVersion = "24.11"; # Installed NixOS version
 }

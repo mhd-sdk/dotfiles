@@ -4,7 +4,7 @@
 return {
     'nvim-tree/nvim-tree.lua',
     lazy = false,
-    enabled = false,
+    enabled = true,
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     opts = function()
         return {
