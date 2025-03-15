@@ -72,9 +72,9 @@
   #
   #  /etc/profiles/per-user/mhd/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
-  };  
+  # home.sessionVariables = {
+  #   ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+  # };  
 
   home.sessionPath = [
     "$HOME/go/bin"

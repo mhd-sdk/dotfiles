@@ -110,12 +110,12 @@
   environment.shellAliases = {
     install-dots = "sh /home/mhd/dev/dotfiles/install.sh";
     nixswitch = "sudo rm -rf /etc/nixos/* && sudo cp /home/mhd/dev/dotfiles/* /etc/nixos -R && sudo nixos-rebuild switch --flake '/etc/nixos#nixos' --show-trace";
-    homeswitch = "home-manager switch -b backup --flake '/home/mhd/dev/dotfiles#mhd' --show-trace ";
+    clearTofi = "rm -rf /home/mhd/.cache/tofi-drun";
     logs-home-manager = "journalctl -xe --unit home-manager-mhd";
     waybar-reload = "pkill waybar && hyprctl dispatch exec waybar";
   };
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   ## Network & Shell
   networking = {
@@ -193,7 +193,9 @@
     wget
     git
     gh
+    chromium
     google-chrome
+    vscode-langservers-extracted
     neofetch
     nerdfonts
     departure-mono
@@ -220,6 +222,13 @@
     nixfmt-rfc-style
     typescript-language-server
     ripgrep
+    simple-scan
+    brlaser
+    lynx
+    firefox
+    terser
+    nodePackages.rollup
+    gnumake
   ];
 
   ## Bluetooth
@@ -237,10 +246,11 @@
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = false;
+    open = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
+  hardware.opengl.enable = true;
 
   users.groups.plugdev = {};
   users.groups.docker = {};
