@@ -229,6 +229,8 @@
     terser
     nodePackages.rollup
     gnumake
+    firefox-devedition
+    http-server
   ];
 
   ## Bluetooth
