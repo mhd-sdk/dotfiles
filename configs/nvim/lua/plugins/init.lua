@@ -1,5 +1,56 @@
 return {
   {
+    "zbirenbaum/copilot.lua",
+    config = function()
+      require("copilot").setup {
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          keymap = {
+            accept = "<tab>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
+      }
+    end,
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function()
+      local cmp = require "cmp"
+      local conf = require "nvchad.configs.cmp"
+
+      local mymappings = {
+        ["<Up>"] = cmp.mapping.select_prev_item(),
+        ["<Down>"] = cmp.mapping.select_next_item(),
+        ["<Tab>"] = cmp.config.disable,
+      }
+      local ls = require "luasnip"
+
+      vim.keymap.set({ "i", "s" }, "<C-L>", function()
+        ls.jump(1)
+      end, { silent = true })
+      vim.keymap.set({ "i", "s" }, "<C-H>", function()
+        ls.jump(-1)
+      end, { silent = true })
+
+      vim.keymap.set({ "i", "s" }, "<C-E>", function()
+        if ls.choice_active() then
+          ls.change_choice(1)
+        end
+      end, { silent = true })
+      -- disable completion with tab
+      -- this helps with copilot setup
+      -- This doesn't seem to work though
+      conf.mapping = vim.tbl_deep_extend("force", conf.mapping, mymappings)
+      return conf
+    end,
+  },
+  {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
