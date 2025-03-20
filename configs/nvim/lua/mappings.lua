@@ -7,7 +7,6 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 
 map("i", "<C-s>", "<Esc>:w<CR>", { desc = "Save file and exit insert mode" })
-vim.api.nvim_set_keymap("v", "y", "ygv", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("n", "d", '"_d', { noremap = true })
 vim.api.nvim_set_keymap("n", "D", '"_D', { noremap = true })

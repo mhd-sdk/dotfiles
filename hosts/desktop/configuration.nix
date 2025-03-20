@@ -115,7 +115,7 @@
     waybar-reload = "pkill waybar && hyprctl dispatch exec waybar";
   };
 
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   ## Network & Shell
   networking = {
@@ -231,7 +231,10 @@
     gnumake
     firefox-devedition
     http-server
+    tmux
+     
   ];
+
 
   ## Bluetooth
   hardware.bluetooth.enable = true;
@@ -252,7 +255,6 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
-  hardware.opengl.enable = true;
 
   users.groups.plugdev = {};
   users.groups.docker = {};
@@ -357,6 +359,7 @@
       xorg.libxshmfence
       zlib
       eslint
+      eslint_d
     ];
   };
 
