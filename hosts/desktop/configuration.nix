@@ -232,7 +232,7 @@
     firefox-devedition
     http-server
     tmux
-     
+ ollama-cuda    
   ];
 
 
