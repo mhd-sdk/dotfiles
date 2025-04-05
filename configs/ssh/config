@@ -1,0 +1,6 @@
+Host mhd-srv
+    HostName 82.67.16.177
+    User mhd
+    IdentityFile /home/mhd/.ssh/mhd-srv-rsa
+    IdentitiesOnly yes
+

@@ -207,6 +207,7 @@
     cliphist
     wl-clipboard
     obs-studio
+    htop
     hyprpaper
     gcc
     fd
@@ -232,9 +233,11 @@
     firefox-devedition
     http-server
     tmux
- ollama-cuda    
+    ollama-cuda    
+    bun
+    gitmoji-cli
   ];
-
+virtualisation.docker.enable = true;
 
   ## Bluetooth
   hardware.bluetooth.enable = true;
