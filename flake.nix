@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     swww.url = "github:LGFae/swww";
     astal = {
       url = "github:aylur/astal";
@@ -39,34 +41,13 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
-    packages.${system}.default = ags.lib.bundle { 
-      inherit pkgs;
-      src = ./configs/statusbar;
-      name = "statusbar"; # name of executable
-      entry = "app.tsx";
-      gtk4 = false;
-
-      # additional libraries and executables to add to gjs' runtime
-      extraPackages = [
-        ags.packages.${system}.battery
-        ags.packages.${system}.astal3
-        ags.packages.${system}.bluetooth
-        ags.packages.${system}.hyprland
-        ags.packages.${system}.mpris
-        ags.packages.${system}.network
-        ags.packages.${system}.tray
-        ags.packages.${system}.io
-        ags.packages.${system}.wireplumber
-        ags.packages.${system}.cava
-        # pkgs.fzf
-      ];
-    };
     devShells.${system} = {
       default = pkgs.mkShell {
         shellHook = ''
         echo "Entering ags/astal dev shell";
         '';
         buildInputs = [
+            pkgs.bashInteractive
           # includes astal3 astal4 astal-io by default
           (ags.packages.${system}.default.override {
             extraPackages = [

@@ -4,6 +4,7 @@
   lib,
   config,
   pkgs,
+  pkgsUnstable,
   ...
 }:
 {
@@ -28,11 +29,13 @@
         flake-registry = "";
         nix-path = config.nix.nixPath; # Workaround for a known bug
       };
-      channel.enable = false; # Disable channels for pure flake usage
+      channel.enable = true; # Disable channels for pure flake usage
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     };
 
   services.udev.extraRules = ''
+    KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
+
     # Rules for Oryx web flashing and live training
     KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
     KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
@@ -164,11 +167,18 @@
     withUWSM = false; # recommended for most users
     xwayland.enable = true; # Xwayland can be disabled.
   };
+  
+    # this allows you to access `pkgsUnstable` anywhere in your config
+  _module.args.pkgsUnstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    inherit (config.nixpkgs) config;
+  };
 
   ## System Packages
   environment.systemPackages = with pkgs; [
     gtk3
     gtk4
+    openssl
     lxappearance
     gnome-themes-extra
     materia-theme
@@ -179,9 +189,6 @@
     cava
     home-manager
     discord
-    inputs.swww.packages.${pkgs.system}.swww
-    outputs.packages.${system}.default
-    inputs.astal.packages.${system}.default
     hyprcursor
     hyprshot
     vim
@@ -218,7 +225,8 @@
     tree
     vlc
     docker
-    code-cursor
+    pkgsUnstable.code-cursor
+    libpcap
     pinta
     nixfmt-rfc-style
     typescript-language-server
@@ -236,9 +244,20 @@
     ollama-cuda    
     bun
     gitmoji-cli
+    postman
+    waybar
+    ddcutil
+    kubectl
+    python3
+    python313Packages.pip
+    python312Packages.python-lsp-server
   ];
-virtualisation.docker.enable = true;
 
+
+  hardware.i2c.enable = true;
+  boot.kernelModules = [ "i2c-dev" ];
+
+  virtualisation.docker.enable = true;
   ## Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -271,6 +290,7 @@ virtualisation.docker.enable = true;
       "audio"
       "docker"
       "plugdev"
+      "i2c"
     ];
   };
 
@@ -288,9 +308,9 @@ virtualisation.docker.enable = true;
 
   stylix = {
     enable = true;
-    image = ../../assets/wallpaper.png;
+    image = ../../assets/asta.jpg;
     polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     cursor.package = pkgs.bibata-cursors;
     cursor.name = "Bibata-Modern-Classic";
     fonts = {
@@ -306,6 +326,7 @@ virtualisation.docker.enable = true;
       sansSerif = config.stylix.fonts.monospace;
       emoji = config.stylix.fonts.monospace;
     };
+
   };
   programs.nix-ld = {
     enable = true;

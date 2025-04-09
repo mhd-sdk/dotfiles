@@ -1,8 +1,10 @@
 format = """
 $username\
 $directory\
+$nix_shell\
 $git_branch \
-$character"""
+$character\ 
+"""
 
 [character]
 disabled = true
@@ -25,13 +27,12 @@ disabled = false
 style = "fg:#d8dee9 bg:#3b4252"
 format = "[ $path ]($style)"
 
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-
 [git_branch]
 symbol = "\uf418"
 format = '[[ $symbol $branch](fg:#81a1c1 bg:#00FFFFFF)]($style)'
 
+[nix_shell]
+disabled = false
+symbol = '❄️'
+style = "fg:#d8dee9 bg:#3b4252"
+format = '[$symbol$name ]($style)'

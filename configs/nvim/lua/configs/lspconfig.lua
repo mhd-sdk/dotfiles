@@ -4,7 +4,7 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 
 -- EXAMPLE
-local servers = { "html", "cssls", "gopls", "ts_ls", "eslint" }
+local servers = { "html", "cssls", "gopls", "ts_ls", "eslint", "pylsp" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
@@ -23,4 +23,16 @@ lspconfig.eslint.setup {
       command = "EslintFixAll",
     })
   end,
+}
+require("lspconfig").pylsp.setup {
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          ignore = { "W391" },
+          maxLineLength = 100,
+        },
+      },
+    },
+  },
 }
