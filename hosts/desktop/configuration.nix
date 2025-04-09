@@ -236,9 +236,24 @@
     ollama-cuda    
     bun
     gitmoji-cli
+    postman
   ];
 virtualisation.docker.enable = true;
-
+  # services.postgresql = {
+  #   enable = true;
+  #   ensureDatabases = [ "mydatabase" ];
+  #   enableTCPIP = true;
+  #   authentication = pkgs.lib.mkOverride 10 ''
+  #     # Connexions locales via socket Unix
+  #     local all       all     trust
+  #
+  #     # Connexions IPv4 locales (depuis la même machine)
+  #     host  all      all     127.0.0.1/32   scram-sha-256
+  #
+  #     # Connexions IPv6 locales
+  #     host  all      all     ::1/128        scram-sha-256
+  #   '';
+  # };
   ## Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
