@@ -33,57 +33,34 @@
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     };
 
-  services.udev.extraRules = ''
-    KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
-
-    # Rules for Oryx web flashing and live training
-    KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
-
-    # Legacy rules for live training over webusb (Not needed for firmware v21+)
-      # Rule for all ZSA keyboards
-      SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
-      # Rule for the Moonlander
-      SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
-      # Rule for the Ergodox EZ
-      SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
-      # Rule for the Planck EZ
-      SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
-
-    # Wally Flashing rules for the Ergodox EZ
-    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-    KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-
-    # Keymapp / Wally Flashing rules for the Moonlander and Planck EZ
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE:="0666", SYMLINK+="stm32_dfu"
-    # Keymapp Flashing rules for the Voyager
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"# Rules for Oryx web flashing and live training
-    KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
-
-    # Legacy rules for live training over webusb (Not needed for firmware v21+)
-    # Rule for all ZSA keyboards
-    SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
-    # Rule for the Moonlander
-    SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
-    # Rule for the Ergodox EZ
-    SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
-    # Rule for the Planck EZ
-    SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
-
-    # Wally Flashing rules for the Ergodox EZ
-    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-    KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-
-    # Keymapp / Wally Flashing rules for the Moonlander and Planck EZ
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE:="0666", SYMLINK+="stm32_dfu"
-    # Keymapp Flashing rules for the Voyager
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"
-  '';
+  # services.udev.extraRules = ''
+  #   KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
+  #
+  #   # Rules for Oryx web flashing and live training
+  #   KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
+  #   KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
+  #
+  #   # Legacy rules for live training over webusb (Not needed for firmware v21+)
+  #   # Rule for all ZSA keyboards
+  #   SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
+  #   # Rule for the Moonlander
+  #   SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
+  #   # Rule for the Ergodox EZ
+  #   SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
+  #   # Rule for the Planck EZ
+  #   SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
+  #
+  #   # Wally Flashing rules for the Ergodox EZ
+  #   ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+  #   ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
+  #   SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
+  #   KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+  #
+  #   # Keymapp / Wally Flashing rules for the Moonlander and Planck EZ
+  #   SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE:="0666", SYMLINK+="stm32_dfu"
+  #   # Keymapp Flashing rules for the Voyager
+  #   SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"
+  # '';
 
   programs.spicetify = {
     enable = true;
@@ -143,6 +120,8 @@
     };
   };
 
+  environment.variables.LIBVA_DRIVER_NAME = "nvidia";
+
   ## Sound (Pipewire)
   security.rtkit.enable = true;
   hardware.pulseaudio.enable = false;
@@ -167,8 +146,8 @@
     withUWSM = false; # recommended for most users
     xwayland.enable = true; # Xwayland can be disabled.
   };
-  
-    # this allows you to access `pkgsUnstable` anywhere in your config
+
+  # this allows you to access `pkgsUnstable` anywhere in your config
   _module.args.pkgsUnstable = import inputs.nixpkgs-unstable {
     inherit (pkgs.stdenv.hostPlatform) system;
     inherit (config.nixpkgs) config;
@@ -189,6 +168,7 @@
     cava
     home-manager
     discord
+    matugen
     hyprcursor
     hyprshot
     vim
@@ -201,7 +181,7 @@
     git
     gh
     chromium
-    google-chrome
+    pkgsUnstable.google-chrome
     vscode-langservers-extracted
     neofetch
     nerdfonts
@@ -236,12 +216,10 @@
     lynx
     firefox
     terser
-    nodePackages.rollup
     gnumake
     firefox-devedition
-    http-server
+    starship
     tmux
-    ollama-cuda    
     bun
     gitmoji-cli
     postman
@@ -251,8 +229,11 @@
     python3
     python313Packages.pip
     python312Packages.python-lsp-server
+    nil
+    swww
+    kdePackages.full
+    nixd
   ];
-
 
   hardware.i2c.enable = true;
   boot.kernelModules = [ "i2c-dev" ];
@@ -267,19 +248,32 @@
   programs.thunar.enable = true;
 
   ## Graphics & NVIDIA
-  hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
+
   hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
+    # This will no longer be necessary when
+    # https://github.com/NixOS/nixpkgs/pull/326369 hits stable
+    modesetting.enable = lib.mkDefault true;
+    # Power management is nearly always required to get nvidia GPUs to
+    # behave on suspend, due to firmware bugs.
+    powerManagement.enable = true;
+    # The open driver is recommended by nvidia now, see
+    # https://download.nvidia.com/XFree86/Linux-x86_64/565.77/README/kernel_open.html
     open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 
-  users.groups.plugdev = {};
-  users.groups.docker = {};
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      vaapiVdpau
+      libvdpau-va-gl
+      nvidia-vaapi-driver
+      vaapiIntel
+    ];
+  };
+
+  users.groups.plugdev = { };
+  users.groups.docker = { };
 
   ## Users
   users.users.mhd = {
@@ -293,7 +287,6 @@
       "i2c"
     ];
   };
-
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -313,6 +306,7 @@
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
     cursor.package = pkgs.bibata-cursors;
     cursor.name = "Bibata-Modern-Classic";
+    cursor.size = 24;
     fonts = {
       monospace = {
         package = pkgs.nerdfonts;
@@ -326,8 +320,8 @@
       sansSerif = config.stylix.fonts.monospace;
       emoji = config.stylix.fonts.monospace;
     };
-
   };
+
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [

@@ -4,7 +4,15 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 
 -- EXAMPLE
-local servers = { "html", "cssls", "gopls", "ts_ls", "eslint", "pylsp" }
+local servers = {
+  "html",
+  "cssls",
+  "gopls",
+  "ts_ls",
+  "eslint",
+  -- "qmlls",
+  "nixd",
+}
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
@@ -24,7 +32,7 @@ lspconfig.eslint.setup {
     })
   end,
 }
-require("lspconfig").pylsp.setup {
+lspconfig.pylsp.setup {
   settings = {
     pylsp = {
       plugins = {
