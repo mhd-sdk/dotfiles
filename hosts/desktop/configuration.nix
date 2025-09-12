@@ -33,34 +33,34 @@
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     };
 
-  # services.udev.extraRules = ''
-  #   KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
-  #
-  #   # Rules for Oryx web flashing and live training
-  #   KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
-  #   KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
-  #
-  #   # Legacy rules for live training over webusb (Not needed for firmware v21+)
-  #   # Rule for all ZSA keyboards
-  #   SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
-  #   # Rule for the Moonlander
-  #   SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
-  #   # Rule for the Ergodox EZ
-  #   SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
-  #   # Rule for the Planck EZ
-  #   SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
-  #
-  #   # Wally Flashing rules for the Ergodox EZ
-  #   ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-  #   ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-  #   SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-  #   KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-  #
-  #   # Keymapp / Wally Flashing rules for the Moonlander and Planck EZ
-  #   SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE:="0666", SYMLINK+="stm32_dfu"
-  #   # Keymapp Flashing rules for the Voyager
-  #   SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"
-  # '';
+  services.udev.extraRules = ''
+    KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
+
+    # Rules for Oryx web flashing and live training
+    KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
+
+    # Legacy rules for live training over webusb (Not needed for firmware v21+)
+    # Rule for all ZSA keyboards
+    SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
+    # Rule for the Moonlander
+    SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
+    # Rule for the Ergodox EZ
+    SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
+    # Rule for the Planck EZ
+    SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
+
+    # Wally Flashing rules for the Ergodox EZ
+    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
+    ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
+    KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
+
+    # Keymapp / Wally Flashing rules for the Moonlander and Planck EZ
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE:="0666", SYMLINK+="stm32_dfu"
+    # Keymapp Flashing rules for the Voyager
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", MODE:="0666", SYMLINK+="ignition_dfu"
+  '';
 
   programs.spicetify = {
     enable = true;
@@ -140,6 +140,8 @@
     animation = "matrix";
   };
 
+  services.upower.enable = true;
+
   services.printing.enable = true;
   programs.hyprland = {
     enable = true;
@@ -157,6 +159,7 @@
   environment.systemPackages = with pkgs; [
     gtk3
     gtk4
+    aubio
     openssl
     lxappearance
     gnome-themes-extra
@@ -176,18 +179,21 @@
     pavucontrol
     vscode
     go
+    libqalculate
     gopls
+    mesa
     wget
     git
     gh
-    chromium
     pkgsUnstable.google-chrome
     vscode-langservers-extracted
     neofetch
-    nerdfonts
+    pkgsUnstable.nerd-fonts.monaspace
+    pkgsUnstable.nerd-fonts.caskaydia-cove
     departure-mono
     spotify
     lua
+    upower
     neovim
     lua-language-server
     spotify
@@ -197,6 +203,10 @@
     htop
     hyprpaper
     gcc
+    cmake
+    ninja
+    libGL
+    mesa
     fd
     nodejs_23
     yarn
@@ -205,6 +215,7 @@
     tree
     vlc
     docker
+    stylua
     pkgsUnstable.code-cursor
     libpcap
     pinta
@@ -222,6 +233,7 @@
     tmux
     bun
     gitmoji-cli
+    kdePackages.full
     postman
     waybar
     ddcutil
@@ -231,7 +243,7 @@
     python312Packages.python-lsp-server
     nil
     swww
-    kdePackages.full
+    material-symbols
     nixd
   ];
 
@@ -256,20 +268,16 @@
     modesetting.enable = lib.mkDefault true;
     # Power management is nearly always required to get nvidia GPUs to
     # behave on suspend, due to firmware bugs.
-    powerManagement.enable = true;
+    powerManagement.enable = false;
+    nvidiaSettings = true;
+
     # The open driver is recommended by nvidia now, see
     # https://download.nvidia.com/XFree86/Linux-x86_64/565.77/README/kernel_open.html
     open = true;
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [
-      vaapiVdpau
-      libvdpau-va-gl
-      nvidia-vaapi-driver
-      vaapiIntel
-    ];
   };
 
   users.groups.plugdev = { };
@@ -297,20 +305,27 @@
 
   fonts.packages = with pkgs; [
     departure-mono
+    pkgsUnstable.nerd-fonts.monaspace
+    material-symbols
+    rubik
+    pkgsUnstable.nerd-fonts.caskaydia-cove
   ];
 
   stylix = {
     enable = true;
-    image = ../../assets/asta.jpg;
+    image = ../../assets/asta_annonce.jpg;
     polarity = "dark";
+    # override = {
+    #   base00 = "000000";
+    # };
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
-    cursor.package = pkgs.bibata-cursors;
     cursor.name = "Bibata-Modern-Classic";
+    cursor.package = pkgs.bibata-cursors;
     cursor.size = 24;
     fonts = {
       monospace = {
-        package = pkgs.nerdfonts;
-        name = "JetBrains Mono Nerd Font";
+        package = pkgsUnstable.nerd-fonts.monaspace;
+        name = "MonaspiceAr Nerd Font";
       };
       # monospace = {
       #   package = pkgs.departure-mono;

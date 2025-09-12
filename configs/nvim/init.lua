@@ -35,3 +35,6 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+-- Mode insert : 'jk' devient Esc
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true })

@@ -6,7 +6,7 @@ padding-left = 35%
 padding-top = 35%
 result-spacing = 25
 num-results = 5
-font = monospace
+font = Departure Mono SemiBold 12
 background-color = #1e1e2eBB
 
 selection-color = #89b4fa
