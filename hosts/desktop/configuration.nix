@@ -199,7 +199,7 @@
     spotify
     cliphist
     wl-clipboard
-    obs-studio
+    pkgsUnstable.obs-studio
     htop
     hyprpaper
     gcc

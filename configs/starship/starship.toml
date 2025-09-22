@@ -1,9 +1,12 @@
 format = """
 $username\
+[](fg:#5e81ac bg:#3b4252  )\
 $directory\
 $nix_shell\
+[](fg:#3b4252 )\
 $git_branch \
 $character\ 
+
 """
 
 [character]
@@ -35,4 +38,4 @@ format = '[[ $symbol $branch](fg:#81a1c1 bg:#00FFFFFF)]($style)'
 disabled = false
 symbol = '❄️'
 style = "fg:#d8dee9 bg:#3b4252"
-format = '[$symbol$name ]($style)'
+format = '[$symbol$name$symbol]($style)'
