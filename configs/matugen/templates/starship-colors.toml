@@ -1,0 +1,58 @@
+palette = 'colors'
+
+format = """
+$username\
+[](fg:bg bg:fg )\
+$directory\
+$nix_shell\
+[](fg:fg )\
+$git_branch \
+$character\ 
+
+"""
+
+[palettes.colors]
+color1 = '{{colors.primary_fixed_dim.default.hex}}'
+color2 = '{{colors.on_primary.default.hex}}'
+color3 = '{{colors.on_surface_variant.default.hex}}'
+color4 = '{{colors.surface_container.default.hex}}'
+color5 = '{{colors.on_primary.default.hex}}'
+color6 = '{{colors.surface_dim.default.hex}}'
+color7 = '{{colors.surface.default.hex}}'
+color8 = '{{colors.primary.default.hex}}'
+color9 = '{{colors.tertiary.default.hex}}'
+fg = '{{colors.inverse_on_surface.default.hex}}'
+bg = '{{colors.primary.default.hex}}'
+bg2 = '{{colors.inverse_on_surface.default.hex}}'
+
+
+
+[character]
+disabled = true
+add_newline = true
+
+[username]
+show_always = true
+style_user = "fg:fg bg:bg"
+style_root = "bg:#9A348E"
+format = '[ $user]($style)'
+disabled = false
+
+[hostname]
+ssh_only = false
+format = '[$ssh_symbol](bold blue) on [$hostname](bold red) '
+trim_at = '.companyname.com'
+disabled = false
+
+[directory]
+style = "fg:color3 bg:fg"
+format = "[ $path]($style)"
+
+[git_branch]
+symbol = "\uf418"
+format = '[[ $symbol $branch](fg:color3 )]($style)'
+
+[nix_shell]
+disabled = false
+style = "fg:color3 bg:fg"
+format = '[ $name]($style)'

@@ -7,6 +7,9 @@
   pkgsUnstable,
   ...
 }:
+let
+in
+# mhdshell = pkgs.callPackage ../../../mhdshell/nix/default.nix { };
 {
   # Import hardware configuration
   imports = [
@@ -15,10 +18,29 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  # systemd.services.mhdshell = {
+  #   description = "mhd's shell";
+  #   wantedBy = [ "graphical-session.target" ];
+  #   partOf = [ "graphical-session.target" ];
+  #   after = [ "graphical-session.target" ];
+  #
+  #   serviceConfig = {
+  #     Type = "simple";
+  #     ExecStart = "${mhdshell}/bin/mhdshell";
+  #     Restart = "on-failure";
+  #     RestartSec = "5s";
+  #   };
+  #
+  #   environment = {
+  #     QT_QPA_PLATFORM = "wayland";
+  #     # Ajoute d'autres variables si nécessaire
+  #   };
+  # };
   ## Nix
   nix =
     let
       flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+
     in
     {
       settings = {
@@ -92,7 +114,6 @@
     nixswitch = "sudo rm -rf /etc/nixos/* && sudo cp /home/mhd/dev/dotfiles/* /etc/nixos -R && sudo nixos-rebuild switch --flake '/etc/nixos#nixos' --show-trace";
     clearTofi = "rm -rf /home/mhd/.cache/tofi-drun";
     logs-home-manager = "journalctl -xe --unit home-manager-mhd";
-    waybar-reload = "pkill waybar && hyprctl dispatch exec waybar";
   };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -245,6 +266,7 @@
     swww
     material-symbols
     nixd
+    dolphin
   ];
 
   hardware.i2c.enable = true;
@@ -318,7 +340,7 @@
     # override = {
     #   base00 = "000000";
     # };
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
     cursor.name = "Bibata-Modern-Classic";
     cursor.package = pkgs.bibata-cursors;
     cursor.size = 24;
