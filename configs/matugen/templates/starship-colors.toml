@@ -2,10 +2,10 @@ palette = 'colors'
 
 format = """
 $username\
-[](fg:bg bg:fg )\
+[█](fg:bg bg:fg )\
 $directory\
 $nix_shell\
-[](fg:fg )\
+[█](fg:fg )\
 $git_branch \
 $character\ 
 

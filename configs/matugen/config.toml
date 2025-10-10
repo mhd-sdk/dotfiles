@@ -23,6 +23,10 @@ output_path = '~/.config/starship.toml'
 input_path = './templates/json-colors.json'
 output_path = '~/.config/matugen/colors.json'
 
+[templates.tmux]
+input_path = './templates/tmux-colors.conf'
+output_path = '~/.config/tmux/tmux.conf'
+post_hook = 'tmux source-file ~/.config/tmux/tmux.conf'
 
 # [templates.qt5ct]
 # input_path = './templates/qtct-colors.conf'

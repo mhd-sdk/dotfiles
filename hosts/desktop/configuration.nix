@@ -211,6 +211,7 @@ in
     neofetch
     pkgsUnstable.nerd-fonts.monaspace
     pkgsUnstable.nerd-fonts.caskaydia-cove
+    pkgsUnstable.nerd-fonts.hack
     departure-mono
     spotify
     lua
@@ -267,6 +268,10 @@ in
     material-symbols
     nixd
     dolphin
+    kitty
+    nautilus
+    zoxide
+    killall
   ];
 
   hardware.i2c.enable = true;
@@ -328,36 +333,37 @@ in
   fonts.packages = with pkgs; [
     departure-mono
     pkgsUnstable.nerd-fonts.monaspace
+    pkgsUnstable.nerd-fonts.hack
     material-symbols
     rubik
     pkgsUnstable.nerd-fonts.caskaydia-cove
   ];
 
-  stylix = {
-    enable = true;
-    image = ../../assets/asta_annonce.jpg;
-    polarity = "dark";
-    # override = {
-    #   base00 = "000000";
-    # };
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
-    cursor.name = "Bibata-Modern-Classic";
-    cursor.package = pkgs.bibata-cursors;
-    cursor.size = 24;
-    fonts = {
-      monospace = {
-        package = pkgsUnstable.nerd-fonts.monaspace;
-        name = "MonaspiceAr Nerd Font";
-      };
-      # monospace = {
-      #   package = pkgs.departure-mono;
-      #   name = "DepartureMono";
-      # };
-      serif = config.stylix.fonts.monospace;
-      sansSerif = config.stylix.fonts.monospace;
-      emoji = config.stylix.fonts.monospace;
-    };
-  };
+  # stylix = {
+  #   enable = false;
+  #   image = ../../assets/asta_annonce.jpg;
+  #   polarity = "dark";
+  #   # override = {
+  #   #   base00 = "000000";
+  #   # };
+  #   # base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
+  #   cursor.name = "Bibata-Modern-Classic";
+  #   cursor.package = pkgs.bibata-cursors;
+  #   cursor.size = 24;
+  #   fonts = {
+  #     monospace = {
+  #       package = pkgsUnstable.nerd-fonts.monaspace;
+  #       name = "Monaspicear nerd font";
+  #     };
+  #     # monospace = {
+  #     #   package = pkgs.departure-mono;
+  #     #   name = "DepartureMono";
+  #     # };
+  #     serif = config.stylix.fonts.monospace;
+  #     sansSerif = config.stylix.fonts.monospace;
+  #     emoji = config.stylix.fonts.monospace;
+  #   };
+  # };
 
   programs.nix-ld = {
     enable = true;

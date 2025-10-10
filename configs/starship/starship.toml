@@ -1,14 +1,14 @@
 format = """
 $username\
-[](fg:#5e81ac bg:#3b4252  )\
+[█](fg:#5e81ac bg:#3b4252  )\
 $directory\
 $nix_shell\
-[](fg:#3b4252 )\
+[█](fg:#3b4252 )\
 $git_branch \
 $character\ 
 
 """
-
+ 
 [character]
 disabled = true
 add_newline = true
