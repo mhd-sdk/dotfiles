@@ -157,9 +157,6 @@ in
   security.polkit.enable = true;
   console.keyMap = "us";
   services.displayManager.ly.enable = true;
-  services.displayManager.ly.settings = {
-    animation = "matrix";
-  };
 
   services.upower.enable = true;
 

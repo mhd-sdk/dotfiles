@@ -23,6 +23,10 @@ output_path = '~/.config/starship.toml'
 input_path = './templates/json-colors.json'
 output_path = '~/.config/matugen/colors.json'
 
+[templates.mhd-shell]
+input_path = './templates/mhdshell-colors.conf'
+output_path = '~/dev/mhdshell/Theme.qml'
+
 [templates.tmux]
 input_path = './templates/tmux-colors.conf'
 output_path = '~/.config/tmux/tmux.conf'
