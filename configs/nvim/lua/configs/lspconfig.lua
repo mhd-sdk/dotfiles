@@ -32,6 +32,7 @@ lspconfig.eslint.setup {
     })
   end,
 }
+
 lspconfig.pylsp.setup {
   settings = {
     pylsp = {

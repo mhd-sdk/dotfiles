@@ -37,11 +37,6 @@
     };
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Theming
     stylix.url = "github:danth/stylix/release-24.11";
 
@@ -52,7 +47,6 @@
       self,
       nixpkgs,
       stylix,
-      nixvim,
       ...
     }@inputs:
     let
@@ -127,7 +121,6 @@
           specialArgs = { inherit outputs inputs; };
           modules = [
             stylix.nixosModules.stylix
-            nixvim.nixosModules.nixvim
             ./hosts/desktop/configuration.nix
           ];
         };

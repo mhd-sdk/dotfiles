@@ -8,10 +8,18 @@
 {
   # You can import other home-manager modules here
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
   ];
-
+  #
+  # wayland.windowManager.hyprland = {
+  #   enable = true;
+  #   # ...
+  #   plugins = [
+  #     # inputs.hyprland-plugins.packages.${pkgs.system}.hyprbars
+  #   ];
+  #
+  # };
   fonts.fontconfig.enable = true;
+
 
   programs.git = {
     enable = true;
@@ -19,11 +27,13 @@
     userEmail = "mhdi.seddik@gmail.com";
   };
 
+
   programs.starship.enable = true;
 
   home = {
     username = "mhd";
     homeDirectory = "/home/mhd";
+
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -64,6 +74,7 @@
 
   home.sessionPath = [
     "$HOME/go/bin"
+    "$HOME/.local/bin"
   ];
 
   home.pointerCursor = {
@@ -122,6 +133,7 @@
 
     '';
     bashrcExtra = ''
+      export PATH="$HOME/.local/bin:$PATH"
       export EDITOR="nvim"
       export VISUAL="nvim"
       if [ -f "$HOME/.bashrc.secrets" ]; then

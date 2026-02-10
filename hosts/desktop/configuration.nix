@@ -1,6 +1,5 @@
 {
   inputs,
-  outputs,
   lib,
   config,
   pkgs,
@@ -96,6 +95,10 @@ in
   # Allow non-free packages
   nixpkgs.config.allowUnfree = true;
 
+
+
+  home-manager.backupFileExtension = "backup";
+
   ## Bootloader & EFI
   boot.loader = {
     systemd-boot.enable = false;
@@ -107,6 +110,7 @@ in
       efiSupport = true;
     };
   };
+  qt.enable = true;
 
   ## Shell Aliases
   environment.shellAliases = {
@@ -120,7 +124,7 @@ in
 
   ## Network & Shell
   networking = {
-    hostName = "nixos";
+    hostName = "NixOS_MHD";
     networkmanager.enable = true;
   };
 
@@ -175,6 +179,9 @@ in
 
   ## System Packages
   environment.systemPackages = with pkgs; [
+    cmake
+    meson
+    cpio
     gtk3
     gtk4
     aubio
@@ -209,6 +216,11 @@ in
     pkgsUnstable.nerd-fonts.monaspace
     pkgsUnstable.nerd-fonts.caskaydia-cove
     pkgsUnstable.nerd-fonts.hack
+    pkgsUnstable.nerd-fonts.bigblue-terminal
+    # terminus_font_ttf
+    terminus_font
+    slack
+    monocraft
     departure-mono
     spotify
     lua
@@ -266,9 +278,15 @@ in
     nixd
     dolphin
     kitty
+    inputs.quickshell.packages.${pkgs.system}.default
+    xterm
     nautilus
     zoxide
     killall
+    jq
+    pkgsUnstable.codex
+    proggyfonts
+    postgresql
   ];
 
   hardware.i2c.enable = true;
@@ -331,9 +349,13 @@ in
     departure-mono
     pkgsUnstable.nerd-fonts.monaspace
     pkgsUnstable.nerd-fonts.hack
+    pkgsUnstable.nerd-fonts.bigblue-terminal
+    pkgsUnstable.nerd-fonts.caskaydia-cove
     material-symbols
     rubik
-    pkgsUnstable.nerd-fonts.caskaydia-cove
+    monocraft
+    proggyfonts
+    terminus_font
   ];
 
   # stylix = {

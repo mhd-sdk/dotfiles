@@ -24,7 +24,11 @@
 	]
 },
 
-
+"tray": {
+    "icon-size": 16,
+    "spacing": 8,
+    "show-passive-items": true
+},
 
 "battery": {
 	//"interval": 5,

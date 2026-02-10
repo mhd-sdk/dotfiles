@@ -6,7 +6,6 @@ $nix_shell\
 [█](fg:#3b4252 )\
 $git_branch \
 $character\ 
-
 """
  
 [character]
