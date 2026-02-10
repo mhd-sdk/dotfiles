@@ -5,12 +5,8 @@ src="$HOME/dev/dotfiles"
 # default nixos configuration folder
 dst="/etc/nixos"
 
-# clear dst folder
-sudo rm -rf "$dst"/*
-
 # copy all files to dst
-sudo cp "$src"/* /etc/nixos -R
+sudo cp -r "$src"/* "$dst"/
 
-# apply nixos configuration 
+# apply nixos configuration (home-manager is applied automatically as a NixOS module)
 sudo nixos-rebuild switch --flake '/etc/nixos#nixos' --show-trace
-home-manager switch --flake '/etc/nixos#mhd' --show-trace

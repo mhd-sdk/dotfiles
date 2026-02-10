@@ -6,9 +6,6 @@
   pkgsUnstable,
   ...
 }:
-let
-in
-# mhdshell = pkgs.callPackage ../../../mhdshell/nix/default.nix { };
 {
   # Import hardware configuration
   imports = [
@@ -17,24 +14,6 @@ in
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  # systemd.services.mhdshell = {
-  #   description = "mhd's shell";
-  #   wantedBy = [ "graphical-session.target" ];
-  #   partOf = [ "graphical-session.target" ];
-  #   after = [ "graphical-session.target" ];
-  #
-  #   serviceConfig = {
-  #     Type = "simple";
-  #     ExecStart = "${mhdshell}/bin/mhdshell";
-  #     Restart = "on-failure";
-  #     RestartSec = "5s";
-  #   };
-  #
-  #   environment = {
-  #     QT_QPA_PLATFORM = "wayland";
-  #     # Ajoute d'autres variables si nécessaire
-  #   };
-  # };
   ## Nix
   nix =
     let
@@ -50,7 +29,7 @@ in
         flake-registry = "";
         nix-path = config.nix.nixPath; # Workaround for a known bug
       };
-      channel.enable = true; # Disable channels for pure flake usage
+      channel.enable = false; # Disable channels for pure flake usage
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     };
 
@@ -95,9 +74,8 @@ in
   # Allow non-free packages
   nixpkgs.config.allowUnfree = true;
 
-
-
   home-manager.backupFileExtension = "backup";
+  home-manager.useGlobalPkgs = true;
 
   ## Bootloader & EFI
   boot.loader = {
@@ -111,14 +89,6 @@ in
     };
   };
   qt.enable = true;
-
-  ## Shell Aliases
-  environment.shellAliases = {
-    install-dots = "sh /home/mhd/dev/dotfiles/install.sh";
-    nixswitch = "sudo rm -rf /etc/nixos/* && sudo cp /home/mhd/dev/dotfiles/* /etc/nixos -R && sudo nixos-rebuild switch --flake '/etc/nixos#nixos' --show-trace";
-    clearTofi = "rm -rf /home/mhd/.cache/tofi-drun";
-    logs-home-manager = "journalctl -xe --unit home-manager-mhd";
-  };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
@@ -179,114 +149,104 @@ in
 
   ## System Packages
   environment.systemPackages = with pkgs; [
+    # -- Build tools --
     cmake
+    gcc
+    gnumake
     meson
+    ninja
+
+    # -- System libraries --
+    aubio
     cpio
     gtk3
     gtk4
-    aubio
-    openssl
-    lxappearance
-    gnome-themes-extra
-    materia-theme
-    papirus-icon-theme
-    hyprpicker
-    bluez
-    bluez-tools
-    cava
-    home-manager
-    discord
-    matugen
-    hyprcursor
-    hyprshot
-    vim
-    tofi
-    pavucontrol
-    vscode
-    go
-    libqalculate
-    gopls
-    mesa
-    wget
-    git
-    gh
-    pkgsUnstable.google-chrome
-    vscode-langservers-extracted
-    neofetch
-    pkgsUnstable.nerd-fonts.monaspace
-    pkgsUnstable.nerd-fonts.caskaydia-cove
-    pkgsUnstable.nerd-fonts.hack
-    pkgsUnstable.nerd-fonts.bigblue-terminal
-    # terminus_font_ttf
-    terminus_font
-    slack
-    monocraft
-    departure-mono
-    spotify
-    lua
-    upower
-    neovim
-    lua-language-server
-    spotify
-    cliphist
-    wl-clipboard
-    pkgsUnstable.obs-studio
-    htop
-    hyprpaper
-    gcc
-    cmake
-    ninja
     libGL
-    mesa
-    fd
-    nodejs_23
-    yarn
-    pnpm_9
-    unzip
-    tree
-    vlc
-    docker
-    stylua
-    pkgsUnstable.code-cursor
     libpcap
-    pinta
-    nixfmt-rfc-style
-    typescript-language-server
-    ripgrep
-    simple-scan
-    brlaser
+    libqalculate
+    mesa
+    openssl
+
+    # -- CLI utilities --
+    fd
+    htop
+    jq
+    killall
     lynx
-    firefox
-    terser
-    gnumake
-    firefox-devedition
-    starship
-    tmux
+    ripgrep
+    tree
+    unzip
+    wget
+    zoxide
+
+    # -- Dev runtimes & tools --
     bun
-    gitmoji-cli
-    kdePackages.full
-    postman
-    waybar
-    ddcutil
-    kubectl
+    go
+    gopls
+    lua
+    lua-language-server
+    nil
+    nixd
+    nixfmt-rfc-style
+    nodejs_23
+    pnpm_9
     python3
     python313Packages.pip
     python312Packages.python-lsp-server
-    nil
+    stylua
+    terser
+    typescript-language-server
+    vscode-langservers-extracted
+    yarn
+
+    # -- Git & version control --
+    git
+    gh
+    gitmoji-cli
+
+    # -- Hyprland & Wayland --
+    cliphist
+    hyprcursor
+    hyprpaper
+    hyprpicker
+    hyprshot
+    matugen
+    pavucontrol
     swww
-    material-symbols
-    nixd
-    dolphin
-    kitty
+    tofi
+    waybar
+    wl-clipboard
+
+    # -- System services --
+    bluez
+    bluez-tools
+    cava
+    ddcutil
+    docker
+    kubectl
+    postgresql
+    starship
+    upower
+
+    # -- Theming --
+    gnome-themes-extra
+    lxappearance
+    materia-theme
+    papirus-icon-theme
+
+    # -- Nix tooling --
+    home-manager
+
+    # -- Desktop environment --
+    kdePackages.full
     inputs.quickshell.packages.${pkgs.system}.default
     xterm
-    nautilus
-    zoxide
-    killall
-    jq
-    pkgsUnstable.codex
-    proggyfonts
-    postgresql
+
+    # -- Shell --
+    tmux
+    vim
+    neovim
+    fastfetch
   ];
 
   hardware.i2c.enable = true;
@@ -339,7 +299,7 @@ in
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs pkgsUnstable; };
     users = {
       mhd = import ./home.nix;
     };
@@ -357,32 +317,6 @@ in
     proggyfonts
     terminus_font
   ];
-
-  # stylix = {
-  #   enable = false;
-  #   image = ../../assets/asta_annonce.jpg;
-  #   polarity = "dark";
-  #   # override = {
-  #   #   base00 = "000000";
-  #   # };
-  #   # base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
-  #   cursor.name = "Bibata-Modern-Classic";
-  #   cursor.package = pkgs.bibata-cursors;
-  #   cursor.size = 24;
-  #   fonts = {
-  #     monospace = {
-  #       package = pkgsUnstable.nerd-fonts.monaspace;
-  #       name = "Monaspicear nerd font";
-  #     };
-  #     # monospace = {
-  #     #   package = pkgs.departure-mono;
-  #     #   name = "DepartureMono";
-  #     # };
-  #     serif = config.stylix.fonts.monospace;
-  #     sansSerif = config.stylix.fonts.monospace;
-  #     emoji = config.stylix.fonts.monospace;
-  #   };
-  # };
 
   programs.nix-ld = {
     enable = true;
@@ -438,8 +372,6 @@ in
       xorg.libxkbfile
       xorg.libxshmfence
       zlib
-      eslint
-      eslint_d
     ];
   };
 

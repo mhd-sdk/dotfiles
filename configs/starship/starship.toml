@@ -1,22 +1,41 @@
+palette = 'colors'
+
 format = """
 $username\
-[█](fg:#5e81ac bg:#3b4252  )\
+[█](fg:bg bg:fg )\
 $directory\
 $nix_shell\
-[█](fg:#3b4252 )\
+[█](fg:fg )\
 $git_branch \
 $character\ 
+
 """
- 
+
+[palettes.colors]
+color1 = '#b1c5ff'
+color2 = '#162e60'
+color3 = '#c5c6d0'
+color4 = '#1e1f25'
+color5 = '#162e60'
+color6 = '#121318'
+color7 = '#121318'
+color8 = '#b1c5ff'
+color9 = '#e0bbdd'
+fg = '#2f3036'
+bg = '#b1c5ff'
+bg2 = '#2f3036'
+
+
+
 [character]
 disabled = true
 add_newline = true
 
 [username]
 show_always = true
-style_user = "fg:#eceff4 bg:#5e81ac"
+style_user = "fg:fg bg:bg"
 style_root = "bg:#9A348E"
-format = '[ $user ]($style)'
+format = '[ $user]($style)'
 disabled = false
 
 [hostname]
@@ -26,15 +45,14 @@ trim_at = '.companyname.com'
 disabled = false
 
 [directory]
-style = "fg:#d8dee9 bg:#3b4252"
-format = "[ $path ]($style)"
+style = "fg:color3 bg:fg"
+format = "[ $path]($style)"
 
 [git_branch]
 symbol = "\uf418"
-format = '[[ $symbol $branch](fg:#81a1c1 bg:#00FFFFFF)]($style)'
+format = '[[ $symbol $branch](fg:color3 )]($style)'
 
 [nix_shell]
 disabled = false
-symbol = '❄️'
-style = "fg:#d8dee9 bg:#3b4252"
-format = '[$symbol$name$symbol]($style)'
+style = "fg:color3 bg:fg"
+format = '[ $name]($style)'
