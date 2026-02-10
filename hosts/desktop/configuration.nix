@@ -147,6 +147,10 @@
     inherit (config.nixpkgs) config;
   };
 
+  environment.sessionVariables = {
+  PATH = [ "$HOME/.local/bin" ];
+};
+
   ## System Packages
   environment.systemPackages = with pkgs; [
     # -- Build tools --
@@ -315,7 +319,7 @@
     rubik
     monocraft
     proggyfonts
-    terminus_font
+    terminus-nerdfont
   ];
 
   programs.nix-ld = {

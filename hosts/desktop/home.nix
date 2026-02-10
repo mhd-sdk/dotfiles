@@ -71,10 +71,13 @@
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/.dircolors";
   };
 
-  home.sessionPath = [
-    "$HOME/go/bin"
-    "$HOME/.local/bin"
-  ];
+  # home.sessionPath = [
+  #   "${config.home.homeDirectory}/go/bin"
+  #   "${config.home.homeDirectory}/.local/bin"
+  # ];
+  home.sessionVariables = {
+  PATH = "$HOME/.local/bin:$HOME/go/bin:$PATH";
+  };
 
   home.pointerCursor = {
     gtk.enable = true;
