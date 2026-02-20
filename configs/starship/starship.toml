@@ -12,17 +12,17 @@ $character\
 """
 
 [palettes.colors]
-color1 = '#b1c5ff'
-color2 = '#162e60'
+color1 = '#afc6ff'
+color2 = '#132f60'
 color3 = '#c5c6d0'
 color4 = '#1e1f25'
-color5 = '#162e60'
+color5 = '#132f60'
 color6 = '#121318'
 color7 = '#121318'
-color8 = '#b1c5ff'
-color9 = '#e0bbdd'
+color8 = '#afc6ff'
+color9 = '#dfbbde'
 fg = '#2f3036'
-bg = '#b1c5ff'
+bg = '#afc6ff'
 bg2 = '#2f3036'
 
 

@@ -148,8 +148,8 @@
   };
 
   environment.sessionVariables = {
-  PATH = [ "$HOME/.local/bin" ];
-};
+    PATH = [ "$HOME/.local/bin" ];
+  };
 
   ## System Packages
   environment.systemPackages = with pkgs; [
@@ -202,6 +202,7 @@
     typescript-language-server
     vscode-langservers-extracted
     yarn
+    zed-editor
 
     # -- Git & version control --
     git
@@ -316,10 +317,14 @@
     pkgsUnstable.nerd-fonts.bigblue-terminal
     pkgsUnstable.nerd-fonts.caskaydia-cove
     material-symbols
+    roboto
     rubik
     monocraft
     proggyfonts
     terminus-nerdfont
+    ibm-plex
+    pkgsUnstable.nerd-fonts.jetbrains-mono
+    cozette
   ];
 
   programs.nix-ld = {

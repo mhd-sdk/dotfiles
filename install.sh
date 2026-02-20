@@ -5,8 +5,13 @@ src="$HOME/dev/dotfiles"
 # default nixos configuration folder
 dst="/etc/nixos"
 
-# copy all files to dst
-sudo cp -r "$src"/* "$dst"/
+# remove existing destination if it exists
+if [ -e "$dst" ]; then
+    sudo rm -rf "$dst"
+fi
 
-# apply nixos configuration (home-manager is applied automatically as a NixOS module)
-sudo nixos-rebuild switch --flake '/etc/nixos#nixos' --show-trace
+# create symbolic link from src to dst
+sudo ln -s "$src" "$dst"
+
+# apply nixos configuration using the real path (home-manager is applied automatically as a NixOS module)
+sudo nixos-rebuild switch --flake "$src#nixos" --show-trace

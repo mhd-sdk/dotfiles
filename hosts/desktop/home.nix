@@ -69,14 +69,10 @@
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/matugen/";
     ".dircolors".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/.dircolors";
-  };
-
-  # home.sessionPath = [
-  #   "${config.home.homeDirectory}/go/bin"
-  #   "${config.home.homeDirectory}/.local/bin"
-  # ];
-  home.sessionVariables = {
-  PATH = "$HOME/.local/bin:$HOME/go/bin:$PATH";
+    ".bashrc".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/bash/.bashrc";
+    ".bash_profile".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dev/dotfiles/configs/bash/.bash_profile";
   };
 
   home.pointerCursor = {
@@ -85,13 +81,6 @@
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
     size = 16;
-  };
-
-  programs.bash = {
-    enable = true;
-    initExtra = ''
-      [ -f "$HOME/dev/dotfiles/configs/bash/bashrc" ] && source "$HOME/dev/dotfiles/configs/bash/bashrc"
-    '';
   };
 
   # Nicely reload system units when changing configs
