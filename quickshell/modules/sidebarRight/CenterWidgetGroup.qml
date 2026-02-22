@@ -9,7 +9,7 @@ import "./volumeMixer"
 Rectangle {
     id: root
     radius: 0
-    color: Theme.primary_container
+    color: Theme.surface_container
 
     property int selectedTab: 0
     readonly property var tabs: [
@@ -55,7 +55,7 @@ Rectangle {
                             antialiasing: false
                             font.hintingPreference: Font.PreferFullHinting
                             color: root.selectedTab === tabItem.tabIndex
-                                ? Theme.primary : Theme.on_primary_container
+                                ? Theme.primary : Theme.on_surface
                             Behavior on color { ColorAnimation { duration: 150 } }
                         }
                         Text {
@@ -66,7 +66,7 @@ Rectangle {
                             antialiasing: false
                             font.hintingPreference: Font.PreferFullHinting
                             color: root.selectedTab === tabItem.tabIndex
-                                ? Theme.primary : Theme.on_primary_container
+                                ? Theme.primary : Theme.on_surface
                             Behavior on color { ColorAnimation { duration: 150 } }
                         }
                     }

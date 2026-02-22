@@ -5,6 +5,7 @@ import qs
 
 Item {
     id: root
+    property string screenName: ""
 
     height: parent.height
     anchors.right: parent.right
@@ -107,7 +108,10 @@ Item {
             HoverHandler { id: menuHover }
 
             TapHandler {
-                onTapped: GlobalState.sidebarRightOpen = !GlobalState.sidebarRightOpen
+                onTapped: {
+                    GlobalState.sidebarRightScreen = root.screenName
+                    GlobalState.sidebarRightOpen = !GlobalState.sidebarRightOpen
+                }
             }
         }
     }

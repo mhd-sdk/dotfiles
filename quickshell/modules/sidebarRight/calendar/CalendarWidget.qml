@@ -44,7 +44,7 @@ Item {
                 renderType: Text.NativeRendering
                 antialiasing: false
                 font.hintingPreference: Font.PreferFullHinting
-                color: root.monthShift !== 0 ? Theme.primary : Theme.on_primary_container
+                color: root.monthShift !== 0 ? Theme.primary : Theme.on_surface
                 Behavior on color { ColorAnimation { duration: 150 } }
 
                 TapHandler {
@@ -68,7 +68,7 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                 }
                 HoverHandler { id: prevHover }
                 TapHandler { onTapped: root.monthShift-- }
@@ -89,7 +89,7 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                 }
                 HoverHandler { id: nextHover }
                 TapHandler { onTapped: root.monthShift++ }
@@ -113,7 +113,7 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                 }
             }
         }
@@ -150,8 +150,8 @@ Item {
                             antialiasing: false
                             font.hintingPreference: Font.PreferFullHinting
                             color: isToday ? Theme.on_primary
-                                : isCurrentMonth ? Theme.on_primary_container
-                                : Qt.rgba(Theme.on_primary_container.r, Theme.on_primary_container.g, Theme.on_primary_container.b, 0.3)
+                                : isCurrentMonth ? Theme.on_surface
+                                : Qt.rgba(Theme.on_surface.r, Theme.on_surface.g, Theme.on_surface.b, 0.3)
                             Behavior on color { ColorAnimation { duration: 120 } }
                         }
 

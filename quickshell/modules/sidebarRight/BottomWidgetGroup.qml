@@ -7,7 +7,7 @@ import "./calendar"
 Rectangle {
     id: root
     radius: 0
-    color: Theme.primary_container
+    color: Theme.surface_container
     clip: true
 
     property bool collapsed: false
@@ -52,7 +52,7 @@ Rectangle {
                 renderType: Text.NativeRendering
                 antialiasing: false
                 font.hintingPreference: Font.PreferFullHinting
-                color: Theme.on_primary_container
+                color: Theme.on_surface
             }
             HoverHandler { id: expandHover }
             TapHandler { onTapped: root.collapsed = false }
@@ -66,7 +66,7 @@ Rectangle {
             renderType: Text.NativeRendering
             antialiasing: false
             font.hintingPreference: Font.PreferFullHinting
-            color: Theme.on_primary_container
+            color: Theme.on_surface
         }
     }
 
@@ -115,7 +115,7 @@ Rectangle {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                 }
                 HoverHandler { id: collapseHover }
                 TapHandler { onTapped: root.collapsed = true }

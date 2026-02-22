@@ -50,7 +50,7 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                 }
 
                 Text {
@@ -61,7 +61,7 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                 }
 
                 Text {
@@ -74,7 +74,7 @@ Item {
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
                     color: root.notification?.urgency === NotificationUrgency.Critical
-                        ? Theme.error : Theme.on_primary_container
+                        ? Theme.error : Theme.on_surface
                     elide: Text.ElideRight
                 }
 
@@ -90,7 +90,7 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                     elide: Text.ElideRight
                     maximumLineCount: 1
                 }
@@ -111,7 +111,7 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                     wrapMode: Text.Wrap
                 }
 
@@ -138,7 +138,7 @@ Item {
                             renderType: Text.NativeRendering
                             antialiasing: false
                             font.hintingPreference: Font.PreferFullHinting
-                            color: Theme.on_primary_container
+                            color: Theme.on_surface
                         }
                         HoverHandler { id: dismissHover }
                         TapHandler {

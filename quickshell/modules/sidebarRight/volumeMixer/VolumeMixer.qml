@@ -72,7 +72,7 @@ Item {
                         renderType: Text.NativeRendering
                         antialiasing: false
                         font.hintingPreference: Font.PreferFullHinting
-                        color: Theme.on_primary_container
+                        color: Theme.on_surface
                     }
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -82,7 +82,7 @@ Item {
                         renderType: Text.NativeRendering
                         antialiasing: false
                         font.hintingPreference: Font.PreferFullHinting
-                        color: Theme.on_primary_container
+                        color: Theme.on_surface
                     }
                 }
             }
@@ -92,7 +92,7 @@ Item {
         Rectangle {
             Layout.fillWidth: true
             height: 1
-            color: Theme.on_primary_container_variant
+            color: Theme.outline_variant
         }
 
         Row {
@@ -122,7 +122,7 @@ Item {
                             renderType: Text.NativeRendering
                             antialiasing: false
                             font.hintingPreference: Font.PreferFullHinting
-                            color: Theme.on_primary_container
+                            color: Theme.on_surface
                         }
                         Text {
                             text: "Output"
@@ -131,7 +131,7 @@ Item {
                             renderType: Text.NativeRendering
                             antialiasing: false
                             font.hintingPreference: Font.PreferFullHinting
-                            color: Theme.on_primary_container
+                            color: Theme.on_surface
                         }
                     }
                     Text {
@@ -142,7 +142,7 @@ Item {
                         renderType: Text.NativeRendering
                         antialiasing: false
                         font.hintingPreference: Font.PreferFullHinting
-                        color: Theme.on_primary_container
+                        color: Theme.on_surface
                         elide: Text.ElideRight
                         width: Math.min(implicitWidth, parent.parent.parent.width / 2 - 20)
                     }
@@ -155,7 +155,7 @@ Item {
             Rectangle {
                 width: 1
                 height: parent.height
-                color: Theme.on_primary_container_variant
+                color: Theme.outline_variant
             }
 
             // Input device button
@@ -181,7 +181,7 @@ Item {
                             renderType: Text.NativeRendering
                             antialiasing: false
                             font.hintingPreference: Font.PreferFullHinting
-                            color: Theme.on_primary_container
+                            color: Theme.on_surface
                         }
                         Text {
                             text: "Input"
@@ -190,7 +190,7 @@ Item {
                             renderType: Text.NativeRendering
                             antialiasing: false
                             font.hintingPreference: Font.PreferFullHinting
-                            color: Theme.on_primary_container
+                            color: Theme.on_surface
                         }
                     }
                     Text {
@@ -201,7 +201,7 @@ Item {
                         renderType: Text.NativeRendering
                         antialiasing: false
                         font.hintingPreference: Font.PreferFullHinting
-                        color: Theme.on_primary_container
+                        color: Theme.on_surface
                         elide: Text.ElideRight
                         width: Math.min(implicitWidth, parent.parent.parent.width / 2 - 20)
                     }
@@ -261,11 +261,11 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                     text: root.deviceSelectorInput ? "Select input device" : "Select output device"
                 }
 
-                Rectangle { Layout.fillWidth: true; height: 1; color: Theme.on_primary_container_variant }
+                Rectangle { Layout.fillWidth: true; height: 1; color: Theme.outline_variant }
 
                 // Device list
                 Column {
@@ -326,7 +326,7 @@ Item {
                                     renderType: Text.NativeRendering
                                     antialiasing: false
                                     font.hintingPreference: Font.PreferFullHinting
-                                    color: Theme.on_primary_container
+                                    color: Theme.on_surface
                                     elide: Text.ElideRight
                                     width: parent.width - 14 - 10
                                 }
@@ -340,7 +340,7 @@ Item {
                     }
                 }
 
-                Rectangle { Layout.fillWidth: true; height: 1; color: Theme.on_primary_container_variant }
+                Rectangle { Layout.fillWidth: true; height: 1; color: Theme.outline_variant }
 
                 // Buttons
                 Row {

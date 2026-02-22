@@ -28,15 +28,15 @@
     slack
     vlc
     vscode
+    zoom-us
+    fzf
   ];
-
 
   programs.git = {
     enable = true;
     userName = "mhd";
     userEmail = "mhdi.seddik@gmail.com";
   };
-
 
   programs.starship.enable = true;
 
@@ -81,6 +81,24 @@
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
     size = 16;
+  };
+
+  systemd.user.services.mhdshell = {
+    Unit = {
+      Description = "mhdshell - quickshell desktop shell";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${
+        inputs.quickshell.packages.${pkgs.system}.default
+      }/bin/quickshell -p ${config.home.homeDirectory}/dev/dotfiles/quickshell";
+      Restart = "on-failure";
+      RestartSec = "3";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
   };
 
   # Nicely reload system units when changing configs

@@ -127,6 +127,14 @@
     pulse.enable = true;
   };
 
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+    environmentVariables = {
+      LD_LIBRARY_PATH = "/run/opengl-driver/lib";
+    };
+  };
+
   ## General Configuration
   security.polkit.enable = true;
   console.keyMap = "us";
@@ -182,6 +190,7 @@
     unzip
     wget
     zoxide
+    neofetch
 
     # -- Dev runtimes & tools --
     bun
@@ -252,10 +261,11 @@
     vim
     neovim
     fastfetch
+
   ];
 
   hardware.i2c.enable = true;
-  boot.kernelModules = [ "i2c-dev" ];
+  boot.kernelModules = [ "i2c-dev" "nvidia-uvm" ];
 
   virtualisation.docker.enable = true;
   ## Bluetooth
@@ -280,7 +290,7 @@
 
     # The open driver is recommended by nvidia now, see
     # https://download.nvidia.com/XFree86/Linux-x86_64/565.77/README/kernel_open.html
-    open = true;
+    open = false;
   };
 
   hardware.graphics = {

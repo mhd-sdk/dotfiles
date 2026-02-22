@@ -22,6 +22,6 @@ PanelWindow {
 
         BarLeft {}
         BarCenter {}
-        BarRight {}
+        BarRight { screenName: win.screen?.name ?? "" }
     }
 }

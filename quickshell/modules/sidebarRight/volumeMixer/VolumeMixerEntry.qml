@@ -41,7 +41,7 @@ Item {
                 renderType: Text.NativeRendering
                 antialiasing: false
                 font.hintingPreference: Font.PreferFullHinting
-                color: Theme.on_primary_container
+                color: Theme.on_surface
             }
 
             RowLayout {
@@ -59,7 +59,7 @@ Item {
                         width: parent.width
                         height: 4
                         radius: 0
-                        color: Theme.on_primary_container_variant
+                        color: Theme.on_surface_variant
                     }
 
                     // Fill
@@ -109,7 +109,7 @@ Item {
                     renderType: Text.NativeRendering
                     antialiasing: false
                     font.hintingPreference: Font.PreferFullHinting
-                    color: Theme.on_primary_container
+                    color: Theme.on_surface
                     Layout.minimumWidth: 32
                     horizontalAlignment: Text.AlignRight
                 }

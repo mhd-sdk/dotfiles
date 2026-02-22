@@ -4,6 +4,7 @@ import QtQuick
 import qs.modules.bar
 import qs.modules.border
 import qs.modules.sidebarRight
+import qs.modules.osd
 
 ShellRoot {
     Variants {
@@ -19,4 +20,5 @@ ShellRoot {
         delegate: BorderExclusions {}
     }
     SidebarRight {}
+    VolumeOsd {}
 }
