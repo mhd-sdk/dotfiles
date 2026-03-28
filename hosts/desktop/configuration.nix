@@ -142,6 +142,11 @@
 
   services.upower.enable = true;
 
+  services.hyprdynamicmonitors = {
+    enable = true;
+    mode = "user";
+  };
+
   services.printing.enable = true;
   programs.hyprland = {
     enable = true;

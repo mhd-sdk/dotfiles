@@ -110,6 +110,7 @@
           specialArgs = { inherit outputs inputs; };
           modules = [
             stylix.nixosModules.stylix
+            inputs.hyprdynamicmonitors.nixosModules.default
             ./hosts/desktop/configuration.nix
           ];
         };
