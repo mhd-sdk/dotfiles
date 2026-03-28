@@ -30,6 +30,7 @@
     vscode
     zoom-us
     fzf
+    ollama
   ];
 
   programs.git = {

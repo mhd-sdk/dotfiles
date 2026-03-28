@@ -21,11 +21,7 @@ Item {
 
     function _pickBus() {
         const map = BrightnessService.busMap
-        let b = (screenName !== "") ? (map[screenName] ?? -1) : -1
-        if (b < 0) {
-            const keys = Object.keys(map)
-            if (keys.length > 0) b = map[keys[0]]
-        }
+        const b = (screenName !== "") ? (map[screenName] ?? -1) : -1
         if (b >= 0) bus = b
     }
 

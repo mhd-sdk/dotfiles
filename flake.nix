@@ -5,6 +5,8 @@
     matugen.url = "github:/InioX/Matugen";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    hyprdynamicmonitors.url = "github:fiffeek/hyprdynamicmonitors";
+
     quickshell = {
       # add ?ref=<tag> to track a tag
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";

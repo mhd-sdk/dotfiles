@@ -14,7 +14,7 @@ Item {
     implicitHeight: parent.height
     implicitWidth: container.implicitWidth
     anchors.left: parent.left
-    anchors.leftMargin: 7
+    anchors.leftMargin: 6
 
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.QsWindow.window?.screen)
     readonly property Toplevel activeWindow: ToplevelManager.activeToplevel

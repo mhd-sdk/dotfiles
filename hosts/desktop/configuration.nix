@@ -127,13 +127,13 @@
     pulse.enable = true;
   };
 
-  services.ollama = {
-    enable = true;
-    acceleration = "cuda";
-    environmentVariables = {
-      LD_LIBRARY_PATH = "/run/opengl-driver/lib";
-    };
-  };
+  # services.ollama = {
+  #   enable = true;
+  #   acceleration = "cuda";
+  #   environmentVariables = {
+  #     LD_LIBRARY_PATH = "/run/opengl-driver/lib";
+  #   };
+  # };
 
   ## General Configuration
   security.polkit.enable = true;
@@ -221,6 +221,7 @@
     # -- Hyprland & Wayland --
     cliphist
     hyprcursor
+    libnotify
     hyprpaper
     hyprpicker
     hyprshot
@@ -265,9 +266,13 @@
   ];
 
   hardware.i2c.enable = true;
-  boot.kernelModules = [ "i2c-dev" "nvidia-uvm" ];
+  boot.kernelModules = [
+    "i2c-dev"
+    "nvidia-uvm"
+  ];
 
   virtualisation.docker.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
   ## Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;

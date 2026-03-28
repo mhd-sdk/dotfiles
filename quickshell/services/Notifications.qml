@@ -11,11 +11,14 @@ Singleton {
     property bool silent: false
     property list<Notification> list: server.trackedNotifications
 
+    signal notificationReceived(var notification)
+
     NotificationServer {
         id: server
         keepOnReload: false
         onNotification: notification => {
             notification.tracked = true
+            root.notificationReceived(notification)
         }
     }
 

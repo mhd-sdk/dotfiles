@@ -42,3 +42,6 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 if [ -f "$HOME/.bashrc.secrets" ]; then
     source "$HOME/.bashrc.secrets"
 fi
+
+# OpenClaw Completion
+source "/home/mhd/.openclaw/completions/openclaw.bash"

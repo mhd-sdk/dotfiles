@@ -1,7 +1,10 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Hyprland
+import Quickshell.Bluetooth
 import qs
+import qs.services
 
 Item {
     id: root
@@ -11,43 +14,80 @@ Item {
     anchors.right: parent.right
     implicitWidth: row.implicitWidth + 12
 
-    // CPU Temperature
-    property string cpuTemp: "..."
-    Process {
-        id: cpuTempProcess
-        running: true
-        command: ["sh", "-c", "cat /sys/class/thermal/thermal_zone0/temp"]
-        stdout: SplitParser {
-            onRead: data => {
-                const temp = parseInt(data) / 1000
-                root.cpuTemp = Math.round(temp) + "°C"
-            }
-        }
-    }
-    Timer {
-        interval: 5000
-        running: true
-        repeat: true
-        onTriggered: cpuTempProcess.running = true
+    // ── Keyboard layout ───────────────────────────────────────────────────────
+    property string keyboardLayout: ""
+
+    function parseLayout(fullName) {
+        return fullName.split(/[\s(,]/)[0].slice(0, 2).toUpperCase()
     }
 
-    // IP Address
-    property string ipAddress: "..."
     Process {
-        id: ipProcess
-        running: true
-        command: ["sh", "-c", "ip -4 addr show | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}' | grep -v 127.0.0.1 | head -n1"]
-        stdout: SplitParser {
-            onRead: data => {
-                root.ipAddress = data.trim() || "N/A"
+        id: devicesProc
+        command: ["hyprctl", "-j", "devices"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    const devices = JSON.parse(text)
+                    const kb = devices.keyboards.find(k => k.main) ?? devices.keyboards[0]
+                    if (kb) root.keyboardLayout = root.parseLayout(kb.active_keymap)
+                } catch (e) {}
             }
         }
+        Component.onCompleted: running = true
     }
-    Timer {
-        interval: 10000
-        running: true
-        repeat: true
-        onTriggered: ipProcess.running = true
+
+    Connections {
+        target: Hyprland
+        function onRawEvent(event) {
+            if (event.name === "activelayout") devicesProc.running = true
+        }
+    }
+
+    // ── Ethernet ──────────────────────────────────────────────────────────────
+    property bool ethernetConnected: false
+
+    Process {
+        id: ethernetProc
+        command: ["nmcli", "-t", "-f", "TYPE,STATE", "device"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                root.ethernetConnected = text.split("\n").some(
+                    line => line.startsWith("ethernet:connected"))
+            }
+        }
+        Component.onCompleted: running = true
+    }
+
+    Connections {
+        target: Nmcli
+        function onActiveChanged() { ethernetProc.running = true }
+    }
+
+    // ── Network icon helper ───────────────────────────────────────────────────
+    function networkIcon(): string {
+        if (root.ethernetConnected) return "󰈀"
+        if (!Nmcli.wifiEnabled) return "󰤭"
+        const ap = Nmcli.active
+        if (!ap) return "󰤫"
+        const s = ap.strength
+        if (s >= 76) return "󰤨"
+        if (s >= 51) return "󰤥"
+        if (s >= 26) return "󰤢"
+        return "󰤟"
+    }
+
+    function networkActive(): bool {
+        return root.ethernetConnected || Nmcli.active !== null
+    }
+
+    // ── Bluetooth icon helper ─────────────────────────────────────────────────
+    function btIcon(): string {
+        if (!Bluetooth.defaultAdapter || !Bluetooth.defaultAdapter.enabled) return "󰂲"
+        const devs = Bluetooth.devices
+        for (const k in devs) {
+            if (devs[k].connected) return "󰂯"
+        }
+        return "󰂱"
     }
 
     Row {
@@ -57,52 +97,77 @@ Item {
         anchors.rightMargin: 6
         spacing: 0
 
+        // Keyboard layout
         Text {
             anchors.verticalCenter: parent.verticalCenter
-            text: root.cpuTemp
-            font.pixelSize: 14
+            text: root.keyboardLayout
+            font.pixelSize: 16
             font.family: Settings.font
             renderType: Text.NativeRendering
             antialiasing: false
             font.hintingPreference: Font.PreferFullHinting
             color: Theme.on_surface_variant
-            rightPadding: 8
+            rightPadding: 12
+            visible: root.keyboardLayout.length > 0
+            font.capitalization: Font.AllUppercase
         }
 
-        Text {
-            anchors.verticalCenter: parent.verticalCenter
-            text: root.ipAddress
-            font.pixelSize: 14
-            font.family: Settings.font
-            renderType: Text.NativeRendering
-            antialiasing: false
-            font.hintingPreference: Font.PreferFullHinting
-            color: Theme.on_surface_variant
-            rightPadding: 8
-        }
-
-        // Menu button
+        // Menu button (WiFi + BT + menu icon)
         Rectangle {
             id: menuBtn
-            width: root.height
             height: root.height
+            implicitWidth: iconsRow.implicitWidth + 16
             radius: 0
             color: GlobalState.sidebarRightOpen ? Theme.primary
                 : menuHover.hovered ? Theme.surface_container_high
                 : "transparent"
             Behavior on color { ColorAnimation { duration: 120 } }
 
-            Text {
-                id: menuIcon
-                anchors.centerIn: parent
-                text: "󰍜"
-                font.pixelSize: 14
-                font.family: Settings.iconFont
-                renderType: Text.NativeRendering
-                antialiasing: false
-                font.hintingPreference: Font.PreferFullHinting
-                color: GlobalState.sidebarRightOpen ? Theme.on_primary : Theme.on_surface_variant
-                Behavior on color { ColorAnimation { duration: 120 } }
+            Row {
+                id: iconsRow
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 8
+                spacing: 8
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: root.networkIcon()
+                    font.pixelSize: 16
+                    font.family: Settings.iconFont
+                    renderType: Text.NativeRendering
+                    antialiasing: false
+                    font.hintingPreference: Font.PreferFullHinting
+                    color: GlobalState.sidebarRightOpen ? Theme.on_primary
+                        : root.networkActive() ? Theme.on_surface : Theme.on_surface_variant
+                    Behavior on color { ColorAnimation { duration: 120 } }
+                }
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: root.btIcon()
+                    font.pixelSize: 16
+                    font.family: Settings.iconFont
+                    renderType: Text.NativeRendering
+                    antialiasing: false
+                    font.hintingPreference: Font.PreferFullHinting
+                    color: GlobalState.sidebarRightOpen ? Theme.on_primary
+                        : (Bluetooth.defaultAdapter && Bluetooth.defaultAdapter.enabled)
+                            ? Theme.on_surface : Theme.on_surface_variant
+                    Behavior on color { ColorAnimation { duration: 120 } }
+                }
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: "󰍜"
+                    font.pixelSize: 16
+                    font.family: Settings.iconFont
+                    renderType: Text.NativeRendering
+                    antialiasing: false
+                    font.hintingPreference: Font.PreferFullHinting
+                    color: GlobalState.sidebarRightOpen ? Theme.on_primary : Theme.on_surface_variant
+                    Behavior on color { ColorAnimation { duration: 120 } }
+                }
             }
 
             HoverHandler { id: menuHover }

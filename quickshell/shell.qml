@@ -5,6 +5,7 @@ import qs.modules.bar
 import qs.modules.border
 import qs.modules.sidebarRight
 import qs.modules.osd
+import qs.modules.notifications
 
 ShellRoot {
     Variants {
@@ -21,4 +22,5 @@ ShellRoot {
     }
     SidebarRight {}
     VolumeOsd {}
+    NotificationToast {}
 }
