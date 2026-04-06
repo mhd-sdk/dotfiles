@@ -138,13 +138,13 @@
   ## General Configuration
   security.polkit.enable = true;
   console.keyMap = "us";
-  services.displayManager.ly.enable = true;
-
+  # services.displayManager.ly.enable = true;
+  services.displayManager.cosmic-greeter.enable = true;
   services.upower.enable = true;
 
   services.hyprdynamicmonitors = {
     enable = true;
-    mode = "user";
+    mode = "none"; # géré via exec-once dans hyprland.conf avec la config utilisateur
   };
 
   services.printing.enable = true;
@@ -260,6 +260,7 @@
     # -- Desktop environment --
     kdePackages.full
     inputs.quickshell.packages.${pkgs.system}.default
+    inputs.hyprdynamicmonitors.packages.${pkgs.system}.default
     xterm
 
     # -- Shell --
